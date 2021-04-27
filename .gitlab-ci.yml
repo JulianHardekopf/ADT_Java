@@ -3,7 +3,7 @@ image: maven:latest
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   MAVEN_CLI_OPTS: "--batch-mode"
-  POM: "-f gitlab-pom.xml"
+  POM: "-f DoNotDelete"
 
 cache:
   paths:
