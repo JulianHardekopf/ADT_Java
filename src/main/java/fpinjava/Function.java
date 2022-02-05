@@ -1,6 +1,8 @@
 package fpinjava;
 
 
+import java.io.IOException;
+
 public interface Function<T, U> {
 
   U apply(T arg);
