@@ -1,14 +1,11 @@
 package fpinjava;
 
-
-import java.io.IOException;
-
 public interface Function<T, U> {
 
   U apply(T arg);
 
   default <V> Function<V, U> compose(Function<V, T> f) {
-    return x -> apply(f.apply(x));
+    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
   }
 
   default <V> Function<T, V> andThen(Function<U, V> f) {
@@ -16,15 +13,15 @@ public interface Function<T, U> {
   }
 
   static <T> Function<T, T> identity() {
-    return t -> t;
+    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
   }
 
   static  Function<Boolean, Boolean> not() {
-    return t -> !t;
+    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
   }
   
   static <T, U, V> Function<V, U> compose(Function<T, U> g, Function<V, T> f) {
-    return x -> g.apply(f.apply(x));
+    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
   }
 
   static <T, U, V> Function<T, V> andThen(Function<T, U> f, Function<U, V> g) {
@@ -54,4 +51,5 @@ public interface Function<T, U> {
   static <T, U, V> Function<Function<T, U>, Function<Function<U, V>, Function<T, V>>> higherAndThen() {
     return f -> g -> z -> g.apply(f.apply(z));
   }
+
 }

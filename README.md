@@ -2,8 +2,8 @@
 - ADT List in Java
 - Stack und Queue
 - ADT Set über ADT List implementieren
-- ADT Map mit ListSet implementieren
-- ADT Set und ADT Map mit Tree implementieren
+- Binäre Suchbäume und ADT SortedSet
+- ADT Map mit ListSet und TreeSet implementieren
 - Graphen
 
 Im Paket fpinjava finden Sie diverse Klassen aus dem Lehrbuch wie z.B. Result.

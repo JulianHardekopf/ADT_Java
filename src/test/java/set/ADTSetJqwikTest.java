@@ -169,6 +169,24 @@ public abstract class ADTSetJqwikTest {
 		return false;
 	}
 
+	// ∀s:Set: disjoint(s, ∅) = true
+	@Property
+	public <A extends Comparable> boolean disjoint_empty(@ForAll("sets") Set<A> s) {
+		return false;
+	}
+
+	//  ∀s:Set, ∀x:A : disjoint({x}, s) = true , falls  x ∉ s
+	@Property
+	public <A extends Comparable> boolean disjoint_elem(@ForAll("sets") Set<A> s, @ForAll("as") A x) {
+		return false;
+	}
+
+	// ∀a:Set, ∀b:Set : |A ∪ B| = |A| + |B| , falls disjoint(A, B) = true
+	@Property
+	public <A> boolean disjoint_size(@ForAll("sets") Set<A> a, @ForAll("sets") Set<A> b){
+		return false;
+	}
+
 	// ∀a:Set, ∀b:Set, ∀x:A : falls x ∈ b und a ⊆ b dann a ∪ {x} ⊆ b
 	@Property(maxDiscardRatio = 100)
 	public <A extends Comparable<A>> boolean union_member_subset(@ForAll("sets") Set<A> a,
