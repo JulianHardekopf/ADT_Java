@@ -12,7 +12,7 @@ public interface Function<T, U> {
     return x -> f.apply(apply(x));
   }
 
-  static <T> Function<T, T> identity() {
+  static <T> Function<T, T> id() {
     throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
   }
 
