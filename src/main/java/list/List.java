@@ -89,9 +89,9 @@ public abstract class List<A> {
 
     public abstract List<A> reverseL();
 
-    public abstract boolean allWithAnyL(Function<A, Boolean> p);
+    public abstract boolean allMitAnyL(Function<A, Boolean> p);
 
-    public abstract boolean anyWithAnyL(Function<A, Boolean> p);
+    public abstract boolean elemMitAnyL(Function<A, Boolean> p);
 
     public abstract Result<A> headOption();
 
@@ -171,7 +171,7 @@ public abstract class List<A> {
         return concat(map(f));
     }
 
-    public int euler1() {
+    public int eulerOne() {
         return sum(range(1, 999).filter(x -> x % 3 == 0 || x % 5 == 0));
     }
 
@@ -371,12 +371,12 @@ public abstract class List<A> {
         }
 
         @Override
-        public boolean allWithAnyL(Function<A, Boolean> p) {
+        public boolean allMitAnyL(Function<A, Boolean> p) {
             return true;
         }
 
         @Override
-        public boolean anyWithAnyL(Function<A, Boolean> p) {
+        public boolean elemMitAnyL(Function<A, Boolean> p) {
             return false;
         }
 
@@ -613,12 +613,12 @@ public abstract class List<A> {
         }
 */
         @Override
-        public boolean allWithAnyL(Function<A, Boolean> p) {
-            return anyL(p) && tail().anyWithAnyL(p);
+        public boolean allMitAnyL(Function<A, Boolean> p) {
+            return anyL(p) && tail().allMitAnyL(p);
         }
 
         @Override
-        public boolean anyWithAnyL(Function<A, Boolean> p) {
+        public boolean elemMitAnyL(Function<A, Boolean> p) {
             return anyL(p);
         }
 
@@ -667,45 +667,45 @@ public abstract class List<A> {
 
     //Rechtsfaltung Klassenmethoden
 
-    static Integer sumR(List<Integer> xs) {
+    public static Integer sumR(List<Integer> xs) {
         return foldr(x -> y -> x + y, 0, xs);
     }
 
-    static Double prodR(List<Double> xs) {
+    public static Double prodR(List<Double> xs) {
         return foldr(x -> y -> x * y, 1.0, xs);
     }
 
-    static boolean andR(List<Boolean> list) {
+    public static boolean andR(List<Boolean> list) {
         return foldr(x -> y -> x && y, true, list);
     }
 
-    static boolean orR(List<Boolean> list) {
+    public static boolean orR(List<Boolean> list) {
         return foldr(x -> y -> x || y, false, list);
     }
 
-    static <A> List<A> appendR(List<A> xs, List<A> ys) {
+    public static <A> List<A> appendR(List<A> xs, List<A> ys) {
         return foldr(x -> l -> new Cons<>(x, l), ys, xs);
     }
 
-    static <A> List<A> concatR(List<List<A>> list) {
+    public static <A> List<A> concatR(List<List<A>> list) {
         return foldr(x -> y -> append(x, y), list(), list);
     }
 
 
     //Linksfaltung Klassenmethoden
-    static Integer sumL(List<Integer> xs) {
+    public static Integer sumL(List<Integer> xs) {
         return foldl(x -> y -> x + y, 0, xs);
     }
 
-    static Double prodL(List<Double> xs) {
+    public static Double prodL(List<Double> xs) {
         return foldl(x -> y -> x * y, 1.0, xs);
     }
 
-    static boolean andL(List<Boolean> list) {
+    public static boolean andL(List<Boolean> list) {
         return foldl(x -> y -> x && y, true, list);
     }
 
-    static boolean orL(List<Boolean> list) {
+    public static boolean orL(List<Boolean> list) {
         return foldl(x -> y -> x || y, false, list);
     }
 
