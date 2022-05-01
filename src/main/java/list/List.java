@@ -81,7 +81,7 @@ public abstract class List<A> {
 
     public abstract boolean elemL(A x);
 
-    public abstract boolean allL(Function<A, Boolean> p);
+   // public abstract boolean allL(Function<A, Boolean> p);
 
     public abstract boolean anyL(Function<A, Boolean> p);
 
@@ -89,9 +89,9 @@ public abstract class List<A> {
 
     public abstract List<A> reverseL();
 
-    public abstract boolean allMitAnyL(Function<A, Boolean> p);
+   // public abstract boolean allMitAnyL(Function<A, Boolean> p);
 
-    public abstract boolean elemMitAnyL(Function<A, Boolean> p);
+   // public abstract boolean elemMitAnyL(Function<A, Boolean> p);
 
     public abstract Result<A> headOption();
 
@@ -223,6 +223,32 @@ public abstract class List<A> {
     }
     public static List<String> words(String s) {
         return s.isEmpty() ? list() : list(s.split("[\\s\\n\\t]+"));
+    }
+
+
+    // test, weil Pipeline failed
+    public boolean allL(Function<A, Boolean> p) {
+        if(list().isEmpty()) {
+            return false;
+        } else {
+            return foldl(y -> x -> p.apply(x) && y, true, tail());
+        }
+    }
+
+    public boolean allMitAnyL(Function<A, Boolean> p) {
+        if(list().isEmpty()) {
+            return true;
+        } else {
+            return anyL(p) && tail().allMitAnyL(p);
+        }
+    }
+
+    public boolean elemMitAnyL(Function<A, Boolean> p) {
+        if(list().isEmpty()) {
+            return false;
+        } else {
+            return anyL(p);
+        }
     }
 
 
@@ -400,11 +426,14 @@ public abstract class List<A> {
             return false;
         }
 
+        /*
         @Override
         public boolean allL(Function<A, Boolean> p) {
             return true;
         }
 
+
+         */
         @Override
         public boolean anyL(Function<A, Boolean> p) {
             return false;
@@ -419,7 +448,7 @@ public abstract class List<A> {
         public List<A> reverseL() {
             return list();
         }
-
+        /*
         @Override
         public boolean allMitAnyL(Function<A, Boolean> p) {
             return true;
@@ -429,7 +458,7 @@ public abstract class List<A> {
         public boolean elemMitAnyL(Function<A, Boolean> p) {
             return false;
         }
-
+        */
         // Damit Java keine Exception wirft - Result provided eine default value
 
         @Override
@@ -636,11 +665,12 @@ public abstract class List<A> {
         public boolean elemL(A x) {
             return foldl(z -> y -> x == y || z, false, tail());
         }
-
+        /*
         @Override
         public boolean allL(Function<A, Boolean> p) {
             return foldl(y -> x -> p.apply(x) && y, true, tail());
         }
+         */
 
         @Override
         public boolean anyL(Function<A, Boolean> p) {
@@ -657,11 +687,8 @@ public abstract class List<A> {
             return foldl(xs -> xs::cons, list(), tail());
         }
 
-       /*     @Override
-        public boolean all(Function<A, Boolean> p) {
-            return p.apply(head()) && tail().all(p);
-        }
-*/
+
+        /*
         @Override
         public boolean allMitAnyL(Function<A, Boolean> p) {
             return anyL(p) && tail().allMitAnyL(p);
@@ -671,6 +698,8 @@ public abstract class List<A> {
         public boolean elemMitAnyL(Function<A, Boolean> p) {
             return anyL(p);
         }
+        */
+
 
         // Damit Java keine Exception wirft - Result provided eine default value
         @Override

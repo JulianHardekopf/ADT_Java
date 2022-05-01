@@ -174,14 +174,14 @@ public class ADTListJqwikTest {
   @Property
   boolean minimum_any(@ForAll("intLists") List<Integer> l){
       Assume.that(!l.isEmpty());
-      return l.any(x -> minumum(l).equals(x));
+      return l.any(x -> minimum(l).equals(x));
   }
 
   //  ∀l: List<A> : all(x -> x>=minimum(l),l)   = true, falls l nicht leer
   @Property
   boolean minimum_all(@ForAll("intLists") List<Integer> l){
       Assume.that(!l.isEmpty());
-      return l.all(x -> minumum(l) <= x);
+      return l.all(x -> minimum(l) <= x);
   }
 
   // Formulieren Sie ein Axiom analog zu minimum_any!
@@ -201,7 +201,7 @@ public class ADTListJqwikTest {
   // ∀ l: List, ∀ start,end: Integer :	minimum([start..end])  = start, falls end >= start
   @Property // Definieren Sie einen geeigneten IntRange für die Parameter!
   boolean minimum_range(@ForAll @IntRange(min = 1, max = 10)  int start, @ForAll @IntRange(min = 10, max = 20) int end) {
-    return minumum(range(start, end)) == start;
+    return minimum(range(start, end)) == start;
   }
 
   //  Formulieren Sie ein Axiom analog zu minimum_range!
