@@ -174,6 +174,56 @@ public abstract class List<A> {
     public int eulerOne() {
         return sum(range(1, 999).filter(x -> x % 3 == 0 || x % 5 == 0));
     }
+    //Rechtsfaltung Klassenmethoden
+
+    public static Integer sumR(List<Integer> xs) {
+        return foldr(x -> y -> x + y, 0, xs);
+    }
+
+    public static Double prodR(List<Double> xs) {
+        return foldr(x -> y -> x * y, 1.0, xs);
+    }
+
+    public static boolean andR(List<Boolean> list) {
+        return foldr(x -> y -> x && y, true, list);
+    }
+
+    public static boolean orR(List<Boolean> list) {
+        return foldr(x -> y -> x || y, false, list);
+    }
+
+    public static <A> List<A> appendR(List<A> xs, List<A> ys) {
+        return foldr(x -> l -> new Cons<>(x, l), ys, xs);
+    }
+
+    public static <A> List<A> concatR(List<List<A>> list) {
+        return foldr(x -> y -> append(x, y), list(), list);
+    }
+
+
+    //Linksfaltung Klassenmethoden
+    public static Integer sumL(List<Integer> xs) {
+        return foldl(x -> y -> x + y, 0, xs);
+    }
+
+    public static Double prodL(List<Double> xs) {
+        return foldl(x -> y -> x * y, 1.0, xs);
+    }
+
+    public static boolean andL(List<Boolean> list) {
+        return foldl(x -> y -> x && y, true, list);
+    }
+
+    public static boolean orL(List<Boolean> list) {
+        return foldl(x -> y -> x || y, false, list);
+    }
+
+    public static List<Integer> range(int start, int end) {
+        return start > end ? list() : new Cons<>(start, range(start + 1, end));
+    }
+    public static List<String> words(String s) {
+        return s.isEmpty() ? list() : list(s.split("[\\s\\n\\t]+"));
+    }
 
 
 
@@ -665,54 +715,4 @@ public abstract class List<A> {
                 list.tail()));
     }
 
-    //Rechtsfaltung Klassenmethoden
-
-    public static Integer sumR(List<Integer> xs) {
-        return foldr(x -> y -> x + y, 0, xs);
-    }
-
-    public static Double prodR(List<Double> xs) {
-        return foldr(x -> y -> x * y, 1.0, xs);
-    }
-
-    public static boolean andR(List<Boolean> list) {
-        return foldr(x -> y -> x && y, true, list);
-    }
-
-    public static boolean orR(List<Boolean> list) {
-        return foldr(x -> y -> x || y, false, list);
-    }
-
-    public static <A> List<A> appendR(List<A> xs, List<A> ys) {
-        return foldr(x -> l -> new Cons<>(x, l), ys, xs);
-    }
-
-    public static <A> List<A> concatR(List<List<A>> list) {
-        return foldr(x -> y -> append(x, y), list(), list);
-    }
-
-
-    //Linksfaltung Klassenmethoden
-    public static Integer sumL(List<Integer> xs) {
-        return foldl(x -> y -> x + y, 0, xs);
-    }
-
-    public static Double prodL(List<Double> xs) {
-        return foldl(x -> y -> x * y, 1.0, xs);
-    }
-
-    public static boolean andL(List<Boolean> list) {
-        return foldl(x -> y -> x && y, true, list);
-    }
-
-    public static boolean orL(List<Boolean> list) {
-        return foldl(x -> y -> x || y, false, list);
-    }
-
-    public static List<Integer> range(int start, int end) {
-        return start > end ? list() : new Cons<>(start, range(start + 1, end));
-    }
-    public static List<String> words(String s) {
-        return s.isEmpty() ? list() : list(s.split("[\\s\\n\\t]+"));
-    }
 }
