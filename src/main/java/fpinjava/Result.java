@@ -31,6 +31,8 @@ public abstract class Result<T> implements Serializable {
 
   public abstract void forEachOrThrow(Effect<T> ef);
 
+  public abstract boolean equals(Object o);
+
   public abstract Result<RuntimeException> forEachOrException(Effect<T> ef);
 
   public Result<T> orElse(Supplier<Result<T>> defaultValue) {
@@ -372,4 +374,5 @@ public abstract class Result<T> implements Serializable {
   public static <A, B, C> Result<C> map2(Result<A> a, Result<B> b, Function<A, Function<B, C>> f) {
     return lift2(f).apply(a).apply(b);
   }
+
 }

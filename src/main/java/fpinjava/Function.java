@@ -5,7 +5,7 @@ public interface Function<T, U> {
   U apply(T arg);
 
   default <V> Function<V, U> compose(Function<V, T> f) {
-    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
+    return x -> apply(f.apply(x));
   }
 
   default <V> Function<T, V> andThen(Function<U, V> f) {
@@ -13,15 +13,15 @@ public interface Function<T, U> {
   }
 
   static <T> Function<T, T> id() {
-    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
+    return x -> x;
   }
 
   static  Function<Boolean, Boolean> not() {
-    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
+    return x -> !x;
   }
   
   static <T, U, V> Function<V, U> compose(Function<T, U> g, Function<V, T> f) {
-    throw new UnsupportedOperationException("Diese Methode muss ich wohl selber noch implementieren");
+      return x -> g.apply(f.apply(x));
   }
 
   static <T, U, V> Function<T, V> andThen(Function<T, U> f, Function<U, V> g) {
