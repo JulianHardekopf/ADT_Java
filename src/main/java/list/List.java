@@ -136,14 +136,14 @@ public abstract class List<A> {
     }
 
 
-    public static Integer minumum(List<Integer> list) {
+    public static Integer minimum(List<Integer> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
         } else  {
             return list.length() == 1 ? list.head()
-                    :  list.head().compareTo(minumum(list.tail())) < 0
+                    :  list.head().compareTo(minimum(list.tail())) < 0
                     ? list.head()
-                    : minumum(list.tail());
+                    : minimum(list.tail());
         }
 
     }
