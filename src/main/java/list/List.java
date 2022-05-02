@@ -75,6 +75,7 @@ public abstract class List<A> {
 
     // FoldL Instanzen
 
+
     public abstract <B> B foldl(Function<B, Function<A, B>> f, B s);
 
     public abstract Integer lengthL();
@@ -135,7 +136,7 @@ public abstract class List<A> {
         return !list.isEmpty() && (list.head() || or(list.tail()));
     }
 
-
+    // compareTo value more than 0 if objekct greater(more Chars) than other Object
     public static Integer minimum(List<Integer> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
@@ -147,6 +148,7 @@ public abstract class List<A> {
         }
 
     }
+    // compareTo value more than 0 if objekct greater(more Chars) than other Object
     public static Integer maximum(List<Integer> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
@@ -158,11 +160,13 @@ public abstract class List<A> {
         }
 
     }
+    // A, B Type, s identity, f funktion and represents the operator
     public static <A, B> B foldr(Function<A, Function<B, B>> f, B s, List<A> xs) {
         return xs.isEmpty() ? s
                 : f.apply(xs.head()).apply(foldr(f, s, xs.tail()));
 
     }
+    // Stack save version
     public static <A, B> B foldl(Function<B, Function<A, B>> f, B s, List<A> xs) {
         return xs.isEmpty() ? s
                 : foldl(f, f.apply(s).apply(xs.head()), xs.tail());
@@ -508,6 +512,7 @@ public abstract class List<A> {
             return new Cons<>(h, tail());
         }
 
+        // instanceOf determin whether the result is a success
         @Override
         public boolean equals(Object o) {
             return o instanceof Cons && isEqualTo((List<A>) o);
@@ -515,7 +520,7 @@ public abstract class List<A> {
 
 
 
-            @Override
+        @Override
         public boolean isEqualTo(List<A> xs) {
             return !xs.isEmpty() && xs.head().equals(this.head()) && xs.tail().isEqualTo(this.tail());
         }
@@ -611,7 +616,7 @@ public abstract class List<A> {
 
         @Override
         public boolean elemR(A x) {
-            return foldr(y -> z -> y==x || z, false, tail());
+            return foldr(y -> z -> y == x || z, false, tail());
         }
 
         @Override
@@ -648,6 +653,7 @@ public abstract class List<A> {
         public String toStringR() {
             return null;
         }
+
 
         @Override
         public <B> B foldl(Function<B, Function<A, B>> f, B s) {
@@ -743,5 +749,6 @@ public abstract class List<A> {
                 : sus(() -> toString(acc.append(list.head()).append(", "),
                 list.tail()));
     }
+
 
 }
