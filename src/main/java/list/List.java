@@ -6,6 +6,9 @@ import fpinjava.Result;
 import fpinjava.TailCall;
 
 
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
+
 import static fpinjava.TailCall.ret;
 import static fpinjava.TailCall.sus;
 
@@ -59,7 +62,7 @@ public abstract class List<A> {
 
     public abstract boolean elemR(A x);
 
-    public abstract int lenghtR();
+    public abstract int lengthR();
 
     public abstract boolean anyR(Function<A, Boolean> p);
 
@@ -71,7 +74,7 @@ public abstract class List<A> {
 
     public abstract List<A> takeWhileR(Function<A, Boolean> p);
 
-    public abstract String toStringR();
+    public abstract StringBuilder toStringR(StringBuilder acc, List<A> list);
 
     // FoldL Instanzen
 
@@ -205,6 +208,7 @@ public abstract class List<A> {
     }
 
 
+
     //Linksfaltung Klassenmethoden
     public static Integer sumL(List<Integer> xs) {
         return foldl(x -> y -> x + y, 0, xs);
@@ -226,7 +230,7 @@ public abstract class List<A> {
         return start > end ? list() : new Cons<>(start, range(start + 1, end));
     }
     public static List<String> words(String s) {
-        return s.isEmpty() ? list() : list(s.split("[\\s\\n\\t]+"));
+        return s.isEmpty() ? list() : list(s.split("[\\s]+"));
     }
 
 
@@ -235,28 +239,49 @@ public abstract class List<A> {
         if(list().isEmpty()) {
             return false;
         } else {
-            return foldl(y -> x -> p.apply(x) && y, true, tail());
+            return foldl(y -> x -> p.apply(x) && y, true, this);
         }
     }
-
+    //  @Override
+    //        public boolean anyL(Function<A, Boolean> p) {
+    //            return foldl(y -> x -> p.apply(x) || y, false, tail());
+    //        }
     public boolean allMitAnyL(Function<A, Boolean> p) {
-        if(list().isEmpty()) {
+        if(this.isEmpty()) {
             return true;
         } else {
-            return anyL(p) && tail().allMitAnyL(p);
+            return !anyL(Function.not().compose(p));
         }
     }
+/*
+    public boolean negate(boolean use) {
+        return !use;
+    }
 
-    public boolean elemMitAnyL(Function<A, Boolean> p) {
-        if(list().isEmpty()) {
+ */
+
+    public boolean elemMitAnyL(A x) {
+        if(this.isEmpty()) {
             return false;
         } else {
-            return anyL(p);
+            return anyL(y -> x.equals(y));
         }
     }
+    /*
 
+    static Function<Integer, Boolean> not() {
+        return x -> x > 2;
+    }
+    public static void main(String[] args) {
+        List list = list(3,3,3,3);
 
+        System.out.println(list.anyL(not()));
+        System.out.println(list.allMitAnyL(not()));
 
+        System.out.println(list.elemMitAnyL(3));
+    }
+
+*/
     // --------------------------------------------------------
     // new class
     private static class Nil<A> extends List<A> {
@@ -367,7 +392,7 @@ public abstract class List<A> {
 
         @Override
         public List<A> reverse() {
-            return this;
+            return list();
         }
 
         @Override
@@ -381,7 +406,7 @@ public abstract class List<A> {
         }
 
         @Override
-        public int lenghtR() {
+        public int lengthR() {
             return 0;
         }
 
@@ -411,8 +436,8 @@ public abstract class List<A> {
         }
 
         @Override
-        public String toStringR() {
-            return "";
+        public StringBuilder toStringR(StringBuilder acc, List<A> list) {
+            return new StringBuilder("[Nil]");
         }
 
         @Override
@@ -430,14 +455,7 @@ public abstract class List<A> {
             return false;
         }
 
-        /*
-        @Override
-        public boolean allL(Function<A, Boolean> p) {
-            return true;
-        }
 
-
-         */
         @Override
         public boolean anyL(Function<A, Boolean> p) {
             return false;
@@ -452,18 +470,6 @@ public abstract class List<A> {
         public List<A> reverseL() {
             return list();
         }
-        /*
-        @Override
-        public boolean allMitAnyL(Function<A, Boolean> p) {
-            return true;
-        }
-
-        @Override
-        public boolean elemMitAnyL(Function<A, Boolean> p) {
-            return false;
-        }
-        */
-        // Damit Java keine Exception wirft - Result provided eine default value
 
         @Override
         public Result<A> headOption() {
@@ -616,42 +622,48 @@ public abstract class List<A> {
 
         @Override
         public boolean elemR(A x) {
-            return foldr(y -> z -> y == x || z, false, tail());
+            return foldr(y -> z -> y.equals(x) || z, false, tail());
         }
 
         @Override
-        public int lenghtR() {
+        public int lengthR() {
             return foldr(x -> n -> n + 1, 0, tail());
         }
 
         @Override
         public boolean anyR(Function<A, Boolean> p) {
-            return foldr(x -> y -> p.apply(x) || y, false, tail());
+            return foldr(x -> y -> p.apply(x) || y, false, this);
         }
 
         @Override
         public boolean allR(Function<A, Boolean> p) {
-            return foldr(x -> y -> p.apply(x) && y, true, tail());
+            return foldr(x -> y -> p.apply(x) && y, true, this);
         }
 
         @Override
         public <B> List<B> mapR(Function<A, B> f) {
-            return foldr(x -> xs -> xs.cons(f.apply(x)), list(), tail());
+            return foldr(x -> xs -> xs.cons(f.apply(x)), list(), this);
         }
 
         @Override
         public List<A> filterR(Function<A, Boolean> f) {
-            return foldr(x -> xs -> f.apply(x) ? xs.cons(x) : xs, list(), tail());
+            return foldr(x -> xs -> f.apply(x) ? xs.cons(x) : xs, list(), this);
         }
 
         @Override
         public List<A> takeWhileR(Function<A, Boolean> p) {
-            return foldr(x -> y -> p.apply(x) ? new Cons<>(x, y) : list(), list(), tail());
+            return foldr(x -> y -> p.apply(x) ? new Cons<>(x, y) : list(), list(), this);
         }
 
+        // sus(() -> toString(acc.append(list.head()).append(", "),
+        //                list.tail()));
+        //return this.foldr(x -> s -> x + ", " + s, "");
         @Override
-        public String toStringR() {
-            return null;
+        public StringBuilder toStringR(StringBuilder acc, List<A> list) {
+            //return this.foldr(x -> s -> toString(acc.append(x, s)), "");
+           // return this.foldr(x -> s -> toString(x + ", ") +
+            return new StringBuilder();
+
         }
 
 
@@ -669,7 +681,7 @@ public abstract class List<A> {
 
          @Override
         public boolean elemL(A x) {
-            return foldl(z -> y -> x == y || z, false, tail());
+            return foldl(z -> y -> x.equals(y) || z  , false, tail());
         }
         /*
         @Override
@@ -750,5 +762,36 @@ public abstract class List<A> {
                 list.tail()));
     }
 
+    public static <A> String toStringR(List<A> xs) {
+        return foldr(x -> y -> x + ", " + y, list().toString(), xs);
+    }
+    /*
+    public static <A> String toStringr4(List<A> list) {
+        return foldr(x -> y -> y.append(x).append(", "), new StringBuilder(), list);
+    }
+    public static <A> String toStringR3(List<A> xs) {
+        return foldr(x -> y -> new StringBuilder().append(x) + ", " + y , list().toString(), xs);
+    }
+    //     public static <A> List<A> concatR(List<List<A>> list) {
+    //        return foldr(x -> y -> append(x, y), list(), list);
+    //    }
+    // return this.foldr(x -> s -> x + ", " + s, "");
+    /*
+    public static <A> StringBuilder toStringr(List<A> list) {
+        return foldr(x -> y -> y.append(x).append(", ").append(list.delete(x).head()), new StringBuilder(), list);
+    }
+
+
+
+    public static void main(String[] args) {
+        List list = list(1,3,2);
+        System.out.println(toStringr(list));
+        System.out.println(list.toString());
+        System.out.println(toStringR(list));
+        System.out.println(toStringr4(list));
+        System.out.println(toStringR3(list));
+    }
+
+     */
 
 }
