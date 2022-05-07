@@ -152,12 +152,17 @@ public class ADTStackJqwikTest {
 	// // ∀s:Stack<A>, ∀xs:List<A> : pushAll(x:xs,s)= push(x,pushAll(xs,s)), falls s nicht leer
 	@Property
 	<A> boolean pushAll(@ForAll("stacks") Stack<A> s, @ForAll("lists") List<A> xs) {
-        Assume.that(!s.isEmpty());
+        Assume.that(!s.isEmpty() && !xs.isEmpty());
+        /*
         System.out.println("list() " + s.pushAll(list()).toList());
         System.out.println("xs: " + s.pushAll(xs).toList());
         System.out.println("dif list()" + s.pushAll(list()).pushAll(list()).toList());
 		//return s.pushAll(list()).equals(s.pushAll(xs.tail()));
-        return s.pushAll(xs).equals(s.pushAll(xs.tail()).push(xs.head()));
+
+         */
+        System.out.println(s.push(xs.head()).pushAll(xs.tail()).toList());
+        System.out.println(s.pushAll(xs).toList());
+        return s.pushAll(xs).equals(s.push(xs.head()).pushAll(xs.tail()));
 	}
 
 

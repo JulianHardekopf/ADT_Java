@@ -39,7 +39,7 @@ public class ListStack<A> implements Stack<A>{
 		if(xs.isEmpty()) {
             return this;
         } else {
-            return new ListStack<A>(List.append(list, xs));
+            return new ListStack<>(List.append((xs.tail().cons(xs.head())).reverse(),list));
         }
 	}
 
@@ -155,9 +155,9 @@ public class ListStack<A> implements Stack<A>{
         Stack liststackempty = ListStack.empty().push(2);
         System.out.println(liststackempty.toList());
 
-
-        System.out.println(new ListStack<>(list()).pushAll(1,2,3,4).toList());
-        System.out.println(new ListStack<>(list()).pushAll(1,2,4,5,6,3,4).toList());
+        List listtest3 = list(1,2,3);
+        System.out.println(new ListStack<>(list()).pushAll(listtest3).toList());
+        System.out.println(new ListStack<>(list()).pushAll(1,2,3).toList());
 
     }
 }
