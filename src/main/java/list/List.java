@@ -6,8 +6,6 @@ import fpinjava.Result;
 import fpinjava.TailCall;
 
 
-import java.util.function.Predicate;
-import java.util.stream.IntStream;
 
 import static fpinjava.TailCall.ret;
 import static fpinjava.TailCall.sus;
@@ -74,7 +72,7 @@ public abstract class List<A> {
 
     public abstract List<A> takeWhileR(Function<A, Boolean> p);
 
-    public abstract StringBuilder toStringR(StringBuilder acc, List<A> list);
+
 
     // FoldL Instanzen
 
@@ -122,8 +120,10 @@ public abstract class List<A> {
             ? 1
             : list.head() * prod(list.tail());
     }
+
     public static <A> List<A> append(List<A> xs, List<A> ys) {
         return xs.isEmpty() ? ys
+                //: new Cons<>(xs.head(), append(xs.tail(), ys));
                 : new Cons<>(xs.head(), append(xs.tail(), ys));
     }
 
@@ -435,10 +435,7 @@ public abstract class List<A> {
             return list();
         }
 
-        @Override
-        public StringBuilder toStringR(StringBuilder acc, List<A> list) {
-            return new StringBuilder("[Nil]");
-        }
+
 
         @Override
         public <B> B foldl(Function<B, Function<A, B>> f, B s) {
@@ -655,16 +652,6 @@ public abstract class List<A> {
             return foldr(x -> y -> p.apply(x) ? new Cons<>(x, y) : list(), list(), this);
         }
 
-        // sus(() -> toString(acc.append(list.head()).append(", "),
-        //                list.tail()));
-        //return this.foldr(x -> s -> x + ", " + s, "");
-        @Override
-        public StringBuilder toStringR(StringBuilder acc, List<A> list) {
-            //return this.foldr(x -> s -> toString(acc.append(x, s)), "");
-           // return this.foldr(x -> s -> toString(x + ", ") +
-            return new StringBuilder();
-
-        }
 
 
         @Override

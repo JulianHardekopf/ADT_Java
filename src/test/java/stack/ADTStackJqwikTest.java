@@ -7,10 +7,12 @@ import tuple.Tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static list.JqwikUtils.equalLists;
 import static list.List.list;
 import static org.junit.jupiter.api.Assertions.*;
+import static stack.ListStack.empty;
 import static tuple.Tuple.tuple;
 
 public class ADTStackJqwikTest {
@@ -86,73 +88,89 @@ public class ADTStackJqwikTest {
 	// isEmpty(empty)	= true
 	@Example
 	boolean isEmpty_empty(){
-		return true;
+		return empty().isEmpty();
 	}
 	
 	// ∀s:Stack<A>, ∀x:A : isEmpty(push(x,s)) = false
 	@Property
 	<A> boolean isEmpty_push(@ForAll("stacks") Stack<A> s, @ForAll("as") A x){
-		return true;
+		return !s.push(x).isEmpty();
 	}
 		
 	// ∀s:Stack<A>, ∀x:Integer : top(push(x,s)) = x
 	@Property
 	<A> boolean top_push(@ForAll("stacks") Stack<A> s, @ForAll("as") A x) {
-		return false;
+		return s.push(x).top().equals(x);
+
 	}
 
 	// ∀s:Stack<A>, ∀x:Integer : pop(push(x,s)) = s
 	@Property
 	<A> boolean pop_push(@ForAll("stacks") Stack<A> s, @ForAll("as") A x) {
-		return false;
+		return s.push(x).pop().equals(s);
 	}
 	
 	// ∀s:Stack<A>, ∀x:Integer : popTop(push(x,s)) = (x,s)
 	@Property
 	<A> boolean popTop_push(@ForAll("stacks") Stack<A> s, @ForAll("as") A x) {
-		return false;
+		return s.push(x).popTop().equals(tuple(x,s));
 	}
 
 	// ∀s:Stack<A> : push(top(s),pop(s))	 = s	, falls s nicht leer
 	@Property
 	<A> boolean push_top_pop(@ForAll("stacks") Stack<A> s) {
-		return false;
+        Assume.that(!s.isEmpty());
+       // return s.pop().push(s.top()).equals(s);
+		return s.push(s.top()).pop().equals(s);
+
 	}
 	
 	// ∀s:Stack<A> : push(popTop(s))	 = s	, falls s nicht leer
 	@Property
 	<A> boolean push_popTop(@ForAll("stacks") Stack<A> s) {
-		return false;
+        Assume.that(!s.isEmpty());
+        return s.popTop().snd.push(s.popTop().fst).equals(s);
+        //return  s.push(s.popTop().fst).equals(s);
 	}
 	
 	// ∀s:Stack<A> : popTop(s)	= top(s), pop(s), falls s nicht leer
 	@Property
 	<A> boolean popTop(@ForAll("stacks") Stack<A> s) {
-		return false;
+
+        Assume.that(!s.isEmpty());
+
+        return  s.popTop().equals(tuple(s.top(), s.pop()));
 	}
 
 	// ∀s:Stack<A> : pushAll([],s) = s
+    // passed
 	@Property
 	<A> boolean pushAll(@ForAll("stacks") Stack<A> s){
-		return false;
+		return s.pushAll(List.list()).equals(s);
 	}
 
 	// // ∀s:Stack<A>, ∀xs:List<A> : pushAll(x:xs,s)= push(x,pushAll(xs,s)), falls s nicht leer
 	@Property
 	<A> boolean pushAll(@ForAll("stacks") Stack<A> s, @ForAll("lists") List<A> xs) {
-		return false;
+        Assume.that(!s.isEmpty());
+        System.out.println("list() " + s.pushAll(list()).toList());
+        System.out.println("xs: " + s.pushAll(xs).toList());
+        System.out.println("dif list()" + s.pushAll(list()).pushAll(list()).toList());
+		//return s.pushAll(list()).equals(s.pushAll(xs.tail()));
+        return s.pushAll(xs).equals(s.pushAll(xs.tail()).push(xs.head()));
 	}
+
 
 	// toList(empty) = []
 	@Example
 	boolean toList() {
-		return false;
+		return empty().toList().equals(list());
 	}
 
 	// ∀s:Stack<A>, ∀x: A :  toList(push(x,s)) = x:toList(s)
 	@Property
 	<A> boolean toList(@ForAll("stacks") Stack<A> s, @ForAll("as") A x) {
-		return false;
+		return s.push(x).toList().equals(s.toList().cons(x));
 	}
 
 	// pop(empty)	= error
