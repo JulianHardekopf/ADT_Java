@@ -36,11 +36,7 @@ public class ListStack<A> implements Stack<A> {
 
     @Override
 	public Stack<A> pushAll(List<A> xs) {
-		if(xs.isEmpty()) {
-            return this;
-        } else {
-            return new ListStack<>(List.append((xs.tail().cons(xs.head())).reverse(),list));
-        }
+        return xs.isEmpty() ? this : new ListStack<>(List.append((xs.tail().cons(xs.head())).reverse(),list));
 	}
 
     @Override
