@@ -6,7 +6,7 @@ import tuple.Tuple;
 import static list.List.list;
 import static tuple.Tuple.tuple;
 
-public class ListStack<A> implements Stack<A>{
+public class ListStack<A> implements Stack<A> {
 	final private List<A> list;
 
 	private ListStack(){
