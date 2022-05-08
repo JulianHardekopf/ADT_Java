@@ -749,7 +749,7 @@ public abstract class List<A> {
                 list.tail()));
     }
 
-    public static <A> String toStringR(List<A> xs) {
+    public <A> String toStringR(List<A> xs) {
         return foldr(x -> y -> x + ", " + y, list().toString(), xs);
     }
     /*

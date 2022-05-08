@@ -45,5 +45,4 @@ public class Tuple<A,B> implements Serializable {
   public static <A,B> Tuple<A,B> tuple(A fst, B snd){
   	return new Tuple<>(fst,snd);
   }
-
 }
