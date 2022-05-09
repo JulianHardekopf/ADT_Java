@@ -48,7 +48,7 @@ public class ListStack<A> implements Stack<A> {
             return (pushAll(List.list(es)));
         }
     }
-    // Laufzeit: O(1)
+    // Laufzeit: O(1) te
     @Override
     public Stack<A> pop() {
         if(list.isEmpty()) {
