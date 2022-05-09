@@ -159,9 +159,11 @@ public class ADTStackJqwikTest {
         System.out.println("dif list()" + s.pushAll(list()).pushAll(list()).toList());
 		//return s.pushAll(list()).equals(s.pushAll(xs.tail()));
 
-         */
+
         System.out.println(s.push(xs.head()).pushAll(xs.tail()).toList());
         System.out.println(s.pushAll(xs).toList());
+        */
+
         return s.pushAll(xs).equals(s.push(xs.head()).pushAll(xs.tail()));
 	}
 
