@@ -25,7 +25,7 @@ public class Postfix {
     }
 
     public static double eval_(Stack<Double> s, List<String> expr) {
-        //System.out.println(s.popTop().fst);
+        //System.out.println(s.popTop().fst);wefweef
         if(expr.isEmpty()) {
             return s.top();
         }
