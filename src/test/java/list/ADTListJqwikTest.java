@@ -269,7 +269,7 @@ public class ADTListJqwikTest {
   // ∀l: List<A>, ∀f: A → Boolean
   // finde(f,l) = any(f,l) ? head(filter(f,l)) : null
   // null-Pointer-sicher vergleichen!
-
+    // Objects.equals
   @Property @Report(Reporting.GENERATED)
   <A> boolean finde(@ForAll("lists") List<A> l, @ForAll Function<A,Boolean> f){
       return l.finde(f) == (l.any(f) ? l.filter(f).head() : null);

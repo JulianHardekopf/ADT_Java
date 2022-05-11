@@ -14,5 +14,6 @@ public interface Stack<A> {
 	Tuple<List<A>,Stack<A>> popTopAll();
 	List<A> toList();
     boolean isEqualTo(Stack<A> s);
+    boolean equals(Object o);
 	int size();
 }

@@ -45,10 +45,10 @@ public class ListStack<A> implements Stack<A> {
         if(es.length == 0) {
             return this;
         } else {
-            return new ListStack<A>(List.list(es));
+            return (pushAll(List.list(es)));
         }
     }
-    // Laufzeit: O(1)
+    // Laufzeit: O(1) te
     @Override
     public Stack<A> pop() {
         if(list.isEmpty()) {
@@ -107,7 +107,7 @@ public class ListStack<A> implements Stack<A> {
 
     @Override
     public int size() {
-        return 0;
+        return list.length();
     }
 
 
