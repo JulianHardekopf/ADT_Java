@@ -37,7 +37,7 @@ public class ListStack<A> implements Stack<A> {
     // Laufzeit: O(n^2)
     @Override
 	public Stack<A> pushAll(List<A> xs) {
-        return xs.isEmpty() ? this : new ListStack<>(List.append((xs.tail().cons(xs.head())).reverse(),list));
+        return xs.isEmpty() ? this : new ListStack<>(List.append((xs).reverse(),list));
 	}
     // Laufzeit: O(n)
     @Override
@@ -54,7 +54,7 @@ public class ListStack<A> implements Stack<A> {
         if(list.isEmpty()) {
             throw new Error("pop form an empty stack");
         } else {
-            return new ListStack<>(list.drop(1));
+            return new ListStack<>(list.tail());
         }
     }
     // Laufzeit: O(1)
