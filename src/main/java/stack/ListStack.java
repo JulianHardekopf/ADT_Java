@@ -7,14 +7,14 @@ import static list.List.list;
 import static tuple.Tuple.tuple;
 
 public class ListStack<A> implements Stack<A> {
-	final private List<A> list;
+	final private List<A> stack;
 
 	private ListStack(){
-		this.list = List.list();
+		this.stack = List.list();
 	}
 
 	private ListStack(List<A> list) {
-		this.list = list;
+		this.stack = list;
 	}
 
     // erzeugt einen leeren ListStack.
@@ -30,14 +30,14 @@ public class ListStack<A> implements Stack<A> {
     // Laufzeit: O(1)
     @Override
     public Stack<A> push(A e) {
-        return new ListStack<>(list.cons(e));
+        return new ListStack<>(stack.cons(e));
     }
 
 
     // Laufzeit: O(n^2)
     @Override
 	public Stack<A> pushAll(List<A> xs) {
-        return xs.isEmpty() ? this : new ListStack<>(List.append((xs).reverse(),list));
+        return xs.isEmpty() ? this : new ListStack<>(List.append((xs).reverse(),stack));
 	}
     // Laufzeit: O(n)
     @Override
@@ -51,25 +51,25 @@ public class ListStack<A> implements Stack<A> {
     // Laufzeit: O(1) test
     @Override
     public Stack<A> pop() {
-        if(list.isEmpty()) {
+        if(stack.isEmpty()) {
             throw new Error("pop form an empty stack");
         } else {
-            return new ListStack<>(list.tail());
+            return new ListStack<>(stack.tail());
         }
     }
     // Laufzeit: O(1)
     @Override
     public A top() {
-        if(list.isEmpty()) {
+        if(stack.isEmpty()) {
             throw new Error("top form an empty stack");
         } else {
-            return list.head();
+            return stack.head();
         }
     }
     // Laufzeit: O(1)
     @Override
     public Tuple<A, Stack<A>> popTop() {
-        if(list.isEmpty()) {
+        if(stack.isEmpty()) {
             throw new Error("top form an empty stack");
         } else {
             return tuple(top(),pop());
@@ -78,10 +78,10 @@ public class ListStack<A> implements Stack<A> {
     // Laufzeit: O(n)
     @Override
     public Tuple<List<A>, Stack<A>> popTopAll() {
-        if(list.isEmpty()) {
+        if(stack.isEmpty()) {
             throw new Error("top form an empty stack");
         } else {
-            return tuple(new ListStack<>(list.drop(list.length())).toList(), new ListStack<A>(list));
+            return tuple(new ListStack<>(stack.drop(stack.length())).toList(), new ListStack<A>(stack));
         }
     }
 
@@ -89,7 +89,7 @@ public class ListStack<A> implements Stack<A> {
     // Laufzeit: O(n)
 	@Override
 	public List<A> toList() {
-		return list;
+		return stack;
 	}
     // Laufzeit: 0(n^2)
 
@@ -107,7 +107,7 @@ public class ListStack<A> implements Stack<A> {
 
     @Override
     public int size() {
-        return list.length();
+        return stack.length();
     }
 
 
