@@ -171,11 +171,11 @@ public abstract class List<A> {
         return xs.isEmpty() ? s
                 : foldl(f, f.apply(s).apply(xs.head()), xs.tail());
     }
-    public <B> List<B> flatMap(Function<A, List<B>> f) {
+    public <B> List<B> concatMap(Function<A, List<B>> f) {
         return concat(map(f));
     }
 
-    public int eulerOne() {
+    public int euler1() {
         return sum(range(1, 999).filter(x -> x % 3 == 0 || x % 5 == 0));
     }
     //Rechtsfaltung Klassenmethoden
