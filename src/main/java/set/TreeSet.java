@@ -3,7 +3,7 @@ package set;
 import fpinjava.Function;
 import list.List;
 
-/*
+
 public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
 	
 
@@ -94,4 +94,3 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
 
 }
 
- */
