@@ -106,12 +106,15 @@ public class ListSet<A> implements Set<A> {
     public static <A> Set<A> fromList(List<A> list) {
         return List.foldl(x -> x::insert, empty(), list);
     }
+    public static <A> Set<A> fromSet(Set<A> s) {
+        return new ListSet<>(s.toList());
+    }
 
-    // idk how
     @SafeVarargs
     public static <A> Set<A> set(A... as) {
         return fromList(List.list(as));
     }
+
     public static Set<String> wordSet(String s) {
         return fromList(List.words(s));
     }
@@ -146,7 +149,9 @@ public class ListSet<A> implements Set<A> {
         Set set = new ListSet(list);
         Set set2 = new ListSet<>(listdup);
         Set set3 = new ListSet();
-        Set set4 = new ListSet();
+        Set set4 = new ListSet(list);
+        Set set7 = fromSet(set4);
+        System.out.println(set7);
         System.out.println(set3.insert(1).insert(2).insert(3));
         System.out.println(set4.insert(3).insert(2).insert(1));
         System.out.println("kommutativ test: " + set3.equals(set4));
