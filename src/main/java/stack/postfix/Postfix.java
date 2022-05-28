@@ -53,6 +53,7 @@ public class Postfix {
             // System.out.println("printListe : " + s.toList());
             return eval_(s, expr.tail());
     }
+    /*
     public static double eval2(String expr) {
         return eval_(ListStack.empty(), List.words(expr));
     }
@@ -114,7 +115,7 @@ public class Postfix {
         // System.out.println("printListe : " + s.toList());
         return eval2_(s, expr.tail());
     }
-
+*/
     public static void main(String[] args) {
         /*
         System.out.println(add.apply(5.0).apply(3.0));

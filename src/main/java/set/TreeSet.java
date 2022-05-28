@@ -27,4 +27,69 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
 		return false;
 	}
 
+    @Override
+    public Set<A> insert(A e) {
+        return null;
+    }
+
+    @Override
+    public Set<A> delete(A e) {
+        return null;
+    }
+
+    @Override
+    public boolean member(A e) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public A findEq(A e) {
+        return null;
+    }
+
+    @Override
+    public List<A> toList() {
+        return null;
+    }
+
+    @Override
+    public Set<A> union(Set<A> s) {
+        return null;
+    }
+
+    @Override
+    public Set<A> intersection(Set<A> s) {
+        return null;
+    }
+
+    @Override
+    public boolean any(Function<A, Boolean> p) {
+        return false;
+    }
+
+    @Override
+    public boolean all(Function<A, Boolean> p) {
+        return false;
+    }
+
+    @Override
+    public boolean isSubsetOf(Set<A> s) {
+        return false;
+    }
+
+    @Override
+    public boolean disjoint(Set<A> s) {
+        return false;
+    }
+
 }

@@ -4,6 +4,8 @@ package list;
 import fpinjava.Function;
 import fpinjava.Result;
 import fpinjava.TailCall;
+import set.ListSet;
+import set.Set;
 
 
 import static fpinjava.TailCall.ret;
@@ -226,7 +228,7 @@ public abstract class List<A> {
         return start > end ? list() : new Cons<>(start, range(start + 1, end));
     }
     public static List<String> words(String s) {
-        return s.isEmpty() ? list() : list(s.split("[\\s\\n\\t]+"));
+        return s.isEmpty() ? list() : list(s.split("[\\s]+"));
     }
 
 
@@ -253,6 +255,12 @@ public abstract class List<A> {
         } else {
             return anyL(p);
         }
+    }
+    public Set<A> toSet() {
+        return ListSet.fromList(this);
+    }
+    public List<A> nub() {
+        return toSet().toList();
     }
 
 
