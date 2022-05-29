@@ -119,8 +119,8 @@ public class ListSet<A> implements Set<A> {
         return fromList(List.words(s));
     }
 
-    public Result<A> lookupEq(A x) {
-        return this.isEmpty() ? Result.empty() : Result.success(findEq(x));
+    public Result<A> lookupEq(A e) {
+        return this.isEmpty() ? Result.empty() : Result.success(findEq(e));
     }
     static <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
         return xs.isEmpty() ? s
@@ -192,6 +192,17 @@ public class ListSet<A> implements Set<A> {
         System.out.println(set5.insert(0).insert(1));
         System.out.println(set6.insert(1).insert(0));
         System.out.println(set5.equals(set6));
+
+        System.out.println("Result test: ------------");
+        // failed with sample {0={}, 1=0, 2=0}
+        List list8 = List.list();
+        Set set8 = fromList(list8);
+       // System.out.println(set.lookupEq(0));
+        System.out.println(set8.toList());
+        System.out.println(set8);
+        System.out.println(set8.insert(0).lookupEq(0));
+        System.out.println(Result.success(0));
+        System.out.println(set8);
     }
 
 }

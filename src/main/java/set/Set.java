@@ -1,6 +1,7 @@
 package set;
 
 import fpinjava.Function;
+import fpinjava.Result;
 import list.List;
 
 
@@ -21,6 +22,7 @@ public interface Set<A>  {
     boolean all(Function<A, Boolean> p);
     boolean isSubsetOf(Set<A> s);
     boolean disjoint(Set<A> s);
+    Result<A> lookupEq(A e);
 
 
 }

@@ -1,5 +1,6 @@
 package set;
 
+import fpinjava.Result;
 import list.JqwikUtils;
 import list.List;
 import net.jqwik.api.*;
@@ -265,4 +266,36 @@ public abstract class ADTSetJqwikTest {
 												        @ForAll("sets") Set<A> c) {
 		return a.union(b.union(c)).equals(a.union(b).union(c));
 	}
+
+    //axioms ∀s : Set<A>, ∀x,y : A
+    //lookupEq(insert(x,s),y) =  x==y ? Result.success(x): lookupEq(y,s)
+    //lookupEq(delete(x,s),y) =  x==y ? Result.empty()   : lookupEq(y,s)
+
+    @Property
+    public <A> boolean lookup_insert(@ForAll("sets") Set<A> s, @ForAll("as") A x, @ForAll("as") A y) {
+      /*  List list = List.list(0,0);
+        Set set = fromList(list);
+        System.out.println(set.lookupEq(0));
+        System.out.println(set);
+        System.out.println(s.insert(x).lookupEq(y));
+
+       */
+           System.out.println("Result test: ------------");
+        // failed with sample {0={}, 1=0, 2=0}
+        List list8 = List.list();
+        Set set8 = fromList(list8);
+       // System.out.println(set.lookupEq(0));
+        System.out.println(set8.toList());
+        System.out.println(set8);
+        System.out.println(set8.insert(0).lookupEq(0));
+        System.out.println(Result.success(0));
+        System.out.println(set8);
+
+        return s.insert(x).lookupEq(y) == (x.equals(y) ? Result.success(x) : s.lookupEq(y));
+    }
+    @Property
+    public <A> boolean lookup_delete(@ForAll("sets") Set<A> s, @ForAll("as") A x, @ForAll("as") A y) {
+        return s.delete(x).lookupEq(y).equals((x.equals(y) ? Result.empty() : s.lookupEq(y)));
+    }
+
 }

@@ -1,6 +1,7 @@
 package set;
 
 import fpinjava.Function;
+import fpinjava.Result;
 import list.List;
 
 
@@ -90,6 +91,11 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
     @Override
     public boolean disjoint(Set<A> s) {
         return false;
+    }
+
+    @Override
+    public Result<A> lookupEq(A e) {
+        return null;
     }
 
 }
