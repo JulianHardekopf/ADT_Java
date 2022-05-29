@@ -54,10 +54,10 @@ ListSet:
   script:
     - mvn $POM -Dinclude.tests=set.ListSetJqwikTest test
 
-TreeSet:
-  stage: collection
-  script:
-    - mvn $POM -Dinclude.tests=set.TreeSetJqwikTest test
+# TreeSet:
+ # stage: collection
+ # script:
+  #  - mvn $POM -Dinclude.tests=set.TreeSetJqwikTest test
 
 ListMap:
   stage: collection
