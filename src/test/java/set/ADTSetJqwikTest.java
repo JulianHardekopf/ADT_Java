@@ -56,7 +56,7 @@ public abstract class ADTSetJqwikTest {
 	}
 
 	@Provide
-	Arbitrary<Tuple<Set<Integer>,Set<Integer>>> equalSets(){
+	private Arbitrary<Tuple<Set<Integer>,Set<Integer>>> equalSets(){
 		return equalSets(ints(),10);
 	}
 
@@ -167,7 +167,7 @@ public abstract class ADTSetJqwikTest {
 	// ∀s:Set : empty ⊆ s
 	@Property
 	public <A extends Comparable<A>> boolean emptySetIsSubsetOfAllSets(@ForAll("sets") Set<A> s) {
-		return ListSet.empty().isSubsetOf((ListSet) s);
+		return this.<A>empty().isSubsetOf((ListSet) s);
 	}
 
 	// ∀s:Set : s ⊆ s
@@ -179,7 +179,7 @@ public abstract class ADTSetJqwikTest {
 	// ∀s:Set: disjoint(s, ∅) = true
 	@Property
 	public <A extends Comparable> boolean disjoint_empty(@ForAll("sets") Set<A> s) {
-		return ListSet.empty().disjoint((ListSet)s);
+		return this.<A>empty().disjoint((ListSet)s);
 	}
 
 	//  ∀s:Set, ∀x:A : disjoint({x}, s) = true , falls  x ∉ s
@@ -273,25 +273,7 @@ public abstract class ADTSetJqwikTest {
 
     @Property
     public <A> boolean lookup_insert(@ForAll("sets") Set<A> s, @ForAll("as") A x, @ForAll("as") A y) {
-      /*  List list = List.list(0,0);
-        Set set = fromList(list);
-        System.out.println(set.lookupEq(0));
-        System.out.println(set);
-        System.out.println(s.insert(x).lookupEq(y));
-
-       */
-           System.out.println("Result test: ------------");
-        // failed with sample {0={}, 1=0, 2=0}
-        List list8 = List.list();
-        Set set8 = fromList(list8);
-       // System.out.println(set.lookupEq(0));
-        System.out.println(set8.toList());
-        System.out.println(set8);
-        System.out.println(set8.insert(0).lookupEq(0));
-        System.out.println(Result.success(0));
-        System.out.println(set8);
-
-        return s.insert(x).lookupEq(y) == (x.equals(y) ? Result.success(x) : s.lookupEq(y));
+        return s.insert(x).lookupEq(y).equals(x.equals(y) ? Result.success(x) : s.lookupEq(y));
     }
     @Property
     public <A> boolean lookup_delete(@ForAll("sets") Set<A> s, @ForAll("as") A x, @ForAll("as") A y) {
