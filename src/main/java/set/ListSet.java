@@ -7,56 +7,56 @@ import static list.List.list;
 
 
 public class ListSet<A> implements Set<A> {
-    private final List<A> set;
+    private final List<A> SET;
 
 	private ListSet(){
-        this.set = list();
+        this.SET = list();
 	}
-    private ListSet(List<A> list) {this.set = list;}
+    private ListSet(List<A> list) {this.SET = list;}
 
     // Laufzeit O(n^2)
     @Override
     public Set<A> insert(A e) {
-        return this.member(e) ? new ListSet<>(set.delete(e).cons(e))
-                : new ListSet<>(set.cons(e));
+        return this.member(e) ? new ListSet<>(SET.delete(e).cons(e))
+                : new ListSet<>(SET.cons(e));
     }
     // Laufzeit O(n)
     @Override
     public Set<A> delete(A e) {
-        return this.member(e) ? new ListSet<>(set.delete(e)) : new ListSet<>(set);
+        return this.member(e) ? new ListSet<>(SET.delete(e)) : new ListSet<>(SET);
 
     }
     // Laufzeit O(n)
     @Override
     public boolean member(A e) {
-        return set.elem(e);
+        return SET.elem(e);
     }
     // Laufzeit O(n)
     @Override
     public int size() {
-        return set.length();
+        return SET.length();
     }
     // Laufzeit O(1)
     @Override
     public boolean isEmpty() {
-        return this.set.isEmpty();
+        return this.SET.isEmpty();
     }
     // Laufzeit O(n) bis O(n^2)
     @Override
     public A findEq(A e) {
-        return this.member(e) ? set.filter(e::equals).head() : null;
+        return this.member(e) ? SET.filter(e::equals).head() : null;
     }
     // Laufzeit O(n)
     @Override
     public List<A> toList() {
-        return set;
+        return SET;
     }
 
     // Laufzeit O(n)
     // String format
     @Override
     public String toString() {
-        return this.isEmpty() ? "{}" : "{" +  set.toString() + "}";
+        return this.isEmpty() ? "{}" : "{" +  SET.toString() + "}";
     }
 
     // Laufzeit O(n^2)
@@ -73,12 +73,12 @@ public class ListSet<A> implements Set<A> {
     // Laufzeit O(n)
     @Override
     public boolean any(Function<A, Boolean> p) {
-        return set.any(p);
+        return SET.any(p);
     }
     // Laufzeit O(n)
     @Override
     public boolean all(Function<A, Boolean> p) {
-        return set.all(p);
+        return SET.all(p);
     }
     // Laufzeit O(n^2)
     public boolean isSubsetOf(Set<A> s) {
