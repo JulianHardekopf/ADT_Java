@@ -65,7 +65,7 @@ public class ListSet<A> implements Set<A> {
     // String format
     @Override
     public String toString() {
-        return this.isEmpty() ? "{}" : "{" + SET.toString() + "}";
+        return this.isEmpty() ? "{}" :  String.format("{%s}" ,SET.toString().replace(", NIL", "").replace("[", "").replace("]", ""));
     }
 
     // Laufzeit O(n^2)
@@ -166,10 +166,8 @@ public class ListSet<A> implements Set<A> {
     public <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
         return ListSet.fromList(xs.toList().map(f));
     }
-}
 
 
-/*
     public static void main(String[] args) {
         List list = list(1,2,3,4,5, 6, 7,8);
         List listdup = list(1,2,3,4,5);
@@ -200,9 +198,7 @@ public class ListSet<A> implements Set<A> {
         Function<Integer, Boolean> funFilter = x -> x%2 == 0;
         Function<Integer, Integer> funMap = x -> x*2;
 
-        System.out.println("Filter Test:" + filter(funFilter, set).toList());
 
-        System.out.println("Map Test:" + map(funMap, set).toList());
 
         System.out.println(set.intersection(set2).toList());
         System.out.println(set.union(set2));
@@ -232,5 +228,6 @@ public class ListSet<A> implements Set<A> {
         System.out.println(Result.success(0));
         System.out.println(set8);
     }
-*/
+}
+
 
