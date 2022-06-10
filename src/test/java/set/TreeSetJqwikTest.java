@@ -18,4 +18,6 @@ public class TreeSetJqwikTest extends ADTSortedSetJqwikTest {
 	protected <A extends Comparable<A>> SortedSet<A> set(A... list){
 		return TreeSet.set(list);
 	}
+
+
 }

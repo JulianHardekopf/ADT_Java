@@ -167,7 +167,7 @@ public abstract class ADTSetJqwikTest {
 	// ∀s:Set : empty ⊆ s
 	@Property
 	public <A extends Comparable<A>> boolean emptySetIsSubsetOfAllSets(@ForAll("sets") Set<A> s) {
-		return this.<A>empty().isSubsetOf((ListSet) s);
+		return this.<A>empty().isSubsetOf(s);
 	}
 
 	// ∀s:Set : s ⊆ s
@@ -179,7 +179,7 @@ public abstract class ADTSetJqwikTest {
 	// ∀s:Set: disjoint(s, ∅) = true
 	@Property
 	public <A extends Comparable> boolean disjoint_empty(@ForAll("sets") Set<A> s) {
-		return this.<A>empty().disjoint((ListSet)s);
+		return this.<A>empty().disjoint(s);
 	}
 
 	//  ∀s:Set, ∀x:A : disjoint({x}, s) = true , falls  x ∉ s
