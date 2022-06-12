@@ -7,65 +7,65 @@ import static list.List.list;
 
 
 public class ListSet<A> implements Set<A> {
-    private final List<A> SET;
+    private final List<A> set;
 
     private ListSet() {
-        this.SET = list();
+        this.set = list();
     }
 
     private ListSet(List<A> list) {
-        this.SET = list;
+        this.set = list;
     }
 
     // Laufzeit O(n^2)
     @Override
     public Set<A> insert(A e) {
-        return this.member(e) ? new ListSet<>(SET.delete(e).cons(e))
-                : new ListSet<>(SET.cons(e));
+        return this.member(e) ? new ListSet<>(set.delete(e).cons(e))
+                : new ListSet<>(set.cons(e));
     }
 
     // Laufzeit O(n)
     @Override
     public Set<A> delete(A e) {
-        return this.member(e) ? new ListSet<>(SET.delete(e)) : new ListSet<>(SET);
+        return this.member(e) ? new ListSet<>(set.delete(e)) : new ListSet<>(set);
 
     }
 
     // Laufzeit O(n)
     @Override
     public boolean member(A e) {
-        return SET.elem(e);
+        return set.elem(e);
     }
 
     // Laufzeit O(n)
     @Override
     public int size() {
-        return SET.length();
+        return set.length();
     }
 
     // Laufzeit O(1)
     @Override
     public boolean isEmpty() {
-        return this.SET.isEmpty();
+        return this.set.isEmpty();
     }
 
     // Laufzeit O(n) bis O(n^2)
     @Override
     public A findEq(A e) {
-        return this.member(e) ? SET.filter(e::equals).head() : null;
+        return this.member(e) ? set.filter(e::equals).head() : null;
     }
 
     // Laufzeit O(n)
     @Override
     public List<A> toList() {
-        return SET;
+        return set;
     }
 
     // Laufzeit O(n)
     // String format
     @Override
     public String toString() {
-        return this.isEmpty() ? "{}" :  String.format("{%s}" ,SET.toString().replace(", NIL", "").replace("[", "").replace("]", ""));
+        return this.isEmpty() ? "{}" :  String.format("{%s}" ,set.toString().replace(", NIL", "").replace("[", "").replace("]", ""));
     }
 
     // Laufzeit O(n^2)
@@ -83,13 +83,13 @@ public class ListSet<A> implements Set<A> {
     // Laufzeit O(n)
     @Override
     public boolean any(Function<A, Boolean> p) {
-        return SET.any(p);
+        return set.any(p);
     }
 
     // Laufzeit O(n)
     @Override
     public boolean all(Function<A, Boolean> p) {
-        return SET.all(p);
+        return set.all(p);
     }
 
     // Laufzeit O(n^2)

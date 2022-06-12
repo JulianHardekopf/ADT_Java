@@ -9,15 +9,15 @@ import static list.List.list;
 
 
 public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
-	private final Tree<A> tree;
+	private final Tree<A> TREE;
 
 
     private TreeSet() {
-        tree = Tree.tree();
+        TREE = Tree.tree();
     }
 
 	private TreeSet(Tree<A> tree){
-        this.tree = tree;
+        this.TREE = tree;
 	}
 
 
@@ -48,111 +48,111 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
     }
     @Override
     public Set<A> insert(A e) {
-        return new TreeSet<>(tree.insert(e));
+        return new TreeSet<>(TREE.insert(e));
     }
 
     @Override
     public Set<A> delete(A e) {
-        return new TreeSet<>(tree.delete(e));
+        return new TreeSet<>(TREE.delete(e));
     }
 
     @Override
     public boolean member(A e) {
-        return tree.member(e);
+        return TREE.member(e);
     }
 
     @Override
     public int size() {
-        return tree.size();
+        return TREE.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return tree.isEmpty();
+        return TREE.isEmpty();
     }
 
     @Override
     public A findEq(A e) {
-        return tree.findEq(e);
+        return TREE.findEq(e);
     }
 
     @Override
     public List<A> toList() {
-        return tree.inorder();
+        return TREE.inorder();
     }
     // könnte noch falsch sein
     @Override
     public Set<A> union(Set<A> s) {
-        return s.union(tree.inorder().toSet());
+        return s.union(TREE.inorder().toSet());
     }
 
     @Override
     public Set<A> intersection(Set<A> s) {
-        return s.intersection(tree.inorder().toSet());
+        return s.intersection(TREE.inorder().toSet());
     }
 
     @Override
     public boolean any(Function<A, Boolean> p) {
-        return tree.inorder().toSet().any(p);
+        return TREE.inorder().toSet().any(p);
     }
 
     @Override
     public boolean all(Function<A, Boolean> p) {
-        return tree.inorder().toSet().all(p);
+        return TREE.inorder().toSet().all(p);
     }
 
     @Override
     public boolean isSubsetOf(Set<A> s) {
-        return s.isSubsetOf(tree.inorder().toSet());
+        return s.isSubsetOf(TREE.inorder().toSet());
     }
 
     @Override
     public boolean disjoint(Set<A> s) {
-        return s.disjoint(tree.inorder().toSet());
+        return s.disjoint(TREE.inorder().toSet());
     }
 
     @Override
     public Result<A> lookupEq(A e) {
-        return tree.inorder().toSet().lookupEq(e);
+        return TREE.inorder().toSet().lookupEq(e);
     }
     @Override
     public Result<A> lookupMax() {
-        return tree.lookupMax();
+        return TREE.lookupMax();
     }
 
     @Override
     public Result<A> lookupMin() {
-        return tree.lookupMin();
+        return TREE.lookupMin();
     }
 
     @Override
     public A findMax() {
-        return tree.findMax();
+        return TREE.findMax();
     }
 
     @Override
     public A findMin() {
-        return tree.findMin();
+        return TREE.findMin();
     }
     @Override
     public String toString() {
-        return tree.toString();
+        return TREE.toString();
     }
 
     public static <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {
         return ListSet.filter(f,xs);
     }
     // Laufzeit O(n)
-    public static  <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
+    public static <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
         return ListSet.map(f,xs);
     }
     // Laufzeit O(n)
-    public static  <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
+    public static <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
         return ListSet.foldr(f,s,xs);
     }
 
     // Laufzeit O(n)
-    public static  <A, B> B foldl(Function<B, Function<A, B>> f, B s, Set<A> xs) {
+    public static <A, B> B foldl(Function<B, Function<A, B>> f, B s, Set<A> xs) {
         return ListSet.foldl(f,s,xs);
     }
 

@@ -90,14 +90,14 @@ public abstract class ADTSortedSetJqwikTest extends ADTSetJqwikTest {
 
 	//∀l:List : findMin(fromList(l)) = minimum(l), falls l nicht leer
 	@Property
-	public <A extends Comparable<A>> boolean findMin_minimum(@ForAll("lists") List<A> l) {
+	<A extends Comparable<A>> boolean findMin_minimum(@ForAll("lists") List<A> l) {
         Assume.that(!l.isEmpty());
         return List.minimum(l).equals(fromList(l).findMin());
 	}
 
   // formulieren Sie ein Axiom analog zu findMin_minimum
   @Property
-	public <A extends Comparable<A>> boolean findMax_maximum(@ForAll("lists") List<A> l) {
+	<A extends Comparable<A>> boolean findMax_maximum(@ForAll("lists") List<A> l) {
       Assume.that(!l.isEmpty());
       return List.maximum(l).equals(fromList(l).findMax());
 	}
