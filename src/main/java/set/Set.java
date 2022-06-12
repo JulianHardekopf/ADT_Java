@@ -15,7 +15,7 @@ public interface Set<A>  {
     A findEq(A e);
     List<A> toList();
     boolean equals(Object o);
-    public String toString();
+    String toString();
     Set<A> union(Set<A> s);
     Set<A> intersection(Set<A> s);
     boolean any(Function<A, Boolean> p);
@@ -23,6 +23,7 @@ public interface Set<A>  {
     boolean isSubsetOf(Set<A> s);
     boolean disjoint(Set<A> s);
     Result<A> lookupEq(A e);
+
 
     // Laufzeit O(n)
     default <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {

@@ -140,6 +140,7 @@ public abstract class List<A> {
     }
 
     // compareTo value more than 0 if objekct greater(more Chars) than other Object
+    /*
     public static Integer minimum(List<Integer> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
@@ -151,17 +152,20 @@ public abstract class List<A> {
         }
 
     }
-    public static <A extends Comparable<A>> A minimum2(List<A> list) {
+
+     */
+    public static <A extends Comparable<A>> A minimum(List<A> list) {
         if(list.isEmpty()) {
             throw new IllegalStateException("empty list");
         } else {
             return list.length() == 1 ? list.head()
-                    :  list.head().compareTo(minimum2(list.tail())) < 0
+                    :  list.head().compareTo(minimum(list.tail())) < 0
                     ? list.head()
-                    : minimum2(list.tail());
+                    : minimum(list.tail());
         }
     }
     // compareTo value more than 0 if objekct greater(more Chars) than other Object
+    /*
     public static Integer maximum(List<Integer> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
@@ -173,14 +177,16 @@ public abstract class List<A> {
         }
 
     }
-    public static <A extends Comparable<A>> A maximum2(List<A> list) {
+
+     */
+    public static <A extends Comparable<A>> A maximum(List<A> list) {
         if(list.isEmpty())  {
             throw new IllegalStateException("empty List");
         } else  {
             return list.length() == 1 ? list.head()
-                    :  list.head().compareTo(maximum2(list.tail())) > 0
+                    :  list.head().compareTo(maximum(list.tail())) > 0
                     ? list.head()
-                    : maximum2(list.tail());
+                    : maximum(list.tail());
         }
 
     }

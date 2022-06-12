@@ -10,8 +10,8 @@ public abstract class Tree <A extends Comparable<A>>  {
     @SuppressWarnings("rawtypes")
     private final static Tree EMPTY = new Empty();
     public abstract A value();
-    abstract Tree<A> left();
-    abstract Tree<A> right();
+    public abstract Tree<A> left();
+    public abstract Tree<A> right();
     public abstract Tree<A> insert(A a);
     public abstract boolean member(A a);
     public abstract int size();
@@ -39,11 +39,11 @@ public abstract class Tree <A extends Comparable<A>>  {
             throw new IllegalStateException("value() called on empty");
         }
         @Override
-        Tree<A> left() {
+        public Tree<A> left() {
             throw new IllegalStateException("left() called on empty");
         }
         @Override
-        Tree<A> right() {
+        public Tree<A> right() {
             throw new IllegalStateException("right() called on empty");
         }
 
@@ -161,11 +161,11 @@ public abstract class Tree <A extends Comparable<A>>  {
             return value;
         }
         @Override
-        Tree<A> left() {
+        public Tree<A> left() {
             return left;
         }
         @Override
-        Tree<A> right() {
+        public Tree<A> right() {
             return right;
         }
         // The method returns 0 if the string is equal to the other string.

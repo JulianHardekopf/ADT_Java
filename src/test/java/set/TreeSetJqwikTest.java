@@ -1,6 +1,10 @@
 package set;
 
 import list.List;
+import net.jqwik.api.Assume;
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+import tree.bst.Tree;
 
 public class TreeSetJqwikTest extends ADTSortedSetJqwikTest {
 	
@@ -19,5 +23,14 @@ public class TreeSetJqwikTest extends ADTSortedSetJqwikTest {
 		return TreeSet.set(list);
 	}
 
-
+    @Property
+    <A extends Comparable<A>> boolean lookupMax(@ForAll("sets") TreeSet<A> s){
+        Assume.that(!s.isEmpty());
+        return s.any(x -> s.lookupMax().exists(y -> (x.compareTo(y) == 0)));
+    }
+    @Property
+    <A extends Comparable<A>> boolean lookupMin(@ForAll("sets") TreeSet<A> s){
+        Assume.that(!s.isEmpty());
+        return s.any(x -> s.lookupMin().exists(y -> (x.compareTo(y) == 0)));
+    }
 }

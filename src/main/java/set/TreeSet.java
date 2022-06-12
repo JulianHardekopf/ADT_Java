@@ -29,7 +29,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
   public static <A extends Comparable<A>> SortedSet<A> fromList(List<A> list) {
 		return new TreeSet<>(Tree.tree(list));
   }
-   public static <A extends Comparable<A>> SortedSet<A> fromSet(Set<A> s) {
+  public static <A extends Comparable<A>> SortedSet<A> fromSet(Set<A> s) {
         return new TreeSet<>(Tree.tree(s.toList()));
    }
   @SafeVarargs
@@ -125,6 +125,20 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         return tree.lookupMin();
     }
 
+    @Override
+    public A findMax() {
+        return tree.findMax();
+    }
+
+    @Override
+    public A findMin() {
+        return tree.findMin();
+    }
+    @Override
+    public String toString() {
+        return tree.toString();
+    }
+
 
     public static void main(String[] args) {
 
@@ -145,7 +159,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         System.out.println("Insert Test: " + treeset.insert(0).toList());
         System.out.println("delel Test: " + treeset.delete(0).toList());
         System.out.println("Size test: " + treeset.size());
-        System.out.println("member Test true: " + treeset.member(3));
+        System.out.println("member Test: " + treeset.member(3));
         System.out.println("UnionTest: " + treeset.union(set).toList());
         Function<Integer, Boolean> fun = x -> x%2 == 0;
         System.out.println("Filter test coming: ");
@@ -159,6 +173,9 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         SortedSet<Integer> ts1 = fromList(list);
         System.out.println(ts1.member(2));
         System.out.println(ts1.lookupMin());
+        System.out.println(ts1.findMax());
+        System.out.println(ts1.findMin());
+        System.out.println(ts1);
     }
 
 
