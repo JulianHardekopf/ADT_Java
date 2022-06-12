@@ -24,6 +24,9 @@ public abstract class Tree <A extends Comparable<A>>  {
     public abstract A findMin();
     public abstract A findMax();
     public abstract List<A> inorder();
+    public abstract List<A> preorder();
+    public abstract List<A> levelorder();
+    public abstract List<A> postorder();
     public abstract int sizeLeaf();
     public abstract int sizeInner();
     public abstract int sizeHalf();
@@ -105,6 +108,21 @@ public abstract class Tree <A extends Comparable<A>>  {
         @Override
         public List<A> inorder() {
             return List.list();
+        }
+
+        @Override
+        public List<A> preorder() {
+            return null;
+        }
+
+        @Override
+        public List<A> levelorder() {
+            return null;
+        }
+
+        @Override
+        public List<A> postorder() {
+            return null;
         }
 
         @Override
@@ -260,6 +278,21 @@ public abstract class Tree <A extends Comparable<A>>  {
         public List<A> inorder() {
             List<A> list = List.append(this.left().inorder(),List.list(this.value()));
             return List.append(list, this.right().inorder());
+        }
+
+        @Override
+        public List<A> preorder() {
+            return null;
+        }
+
+        @Override
+        public List<A> levelorder() {
+            return null;
+        }
+
+        @Override
+        public List<A> postorder() {
+            return null;
         }
 
         //O(n)

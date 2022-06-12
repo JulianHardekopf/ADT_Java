@@ -139,6 +139,23 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         return tree.toString();
     }
 
+    public static <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {
+        return ListSet.filter(f,xs);
+    }
+    // Laufzeit O(n)
+    public static  <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
+        return ListSet.map(f,xs);
+    }
+    // Laufzeit O(n)
+    public static  <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
+        return ListSet.foldr(f,s,xs);
+    }
+
+    // Laufzeit O(n)
+    public static  <A, B> B foldl(Function<B, Function<A, B>> f, B s, Set<A> xs) {
+        return ListSet.foldl(f,s,xs);
+    }
+
 
     public static void main(String[] args) {
 
@@ -165,7 +182,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         System.out.println("Filter test coming: ");
         System.out.println(treeset.toList());
         System.out.println(set.toList());
-        System.out.println("Filter test with default: " + treeset.filter(fun, treeset));
+        System.out.println("Filter test with default: " + filter(fun, treeset));
         System.out.println("fromSet test: " + fromSet(set).toList());
         String test = "Elfen helfen Elfeen test test AA";
         System.out.println(wordSet(test).toList());
