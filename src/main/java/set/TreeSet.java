@@ -80,7 +80,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
     public List<A> toList() {
         return TREE.inorder();
     }
-    // könnte noch falsch sein
+
     @Override
     public Set<A> union(Set<A> s) {
         return s.union(TREE.inorder().toSet());
@@ -136,7 +136,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
     }
     @Override
     public String toString() {
-        return TREE.toString();
+        return TREE.inorder().toString();
     }
 
     public static <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {

@@ -25,6 +25,7 @@ public interface Set<A>  {
     Result<A> lookupEq(A e);
 
 
+
     // Laufzeit O(n)
     static <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {
         return ListSet.fromList(xs.toList().filter(f));

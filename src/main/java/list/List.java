@@ -4,6 +4,8 @@ package list;
 import fpinjava.Function;
 import fpinjava.Result;
 import fpinjava.TailCall;
+import map.ListMap;
+import map.Map;
 import set.ListSet;
 import set.Set;
 
@@ -154,6 +156,14 @@ public abstract class List<A> {
     }
 
      */
+
+    public <B> Map<B, List<A>> groupBy(Function<A, B> f) {
+        return foldr(t -> mt -> {
+            final B k = f.apply(t);
+            return mt.insertWith(x -> y ->  mt.get(k).cons(t), k, list(t));
+        }, ListMap.empty());
+    }
+
     public static <A extends Comparable<A>> A minimum(List<A> list) {
         if(list.isEmpty()) {
             throw new IllegalStateException("empty list");

@@ -8,7 +8,7 @@ public class Tuple<A,B> implements Serializable {
   public final A fst;
   public final B snd;
 
-  private Tuple(A fst, B snd) {
+  public Tuple(A fst, B snd) {
     this.fst = Objects.requireNonNull(fst);
     this.snd = Objects.requireNonNull(snd);
   }

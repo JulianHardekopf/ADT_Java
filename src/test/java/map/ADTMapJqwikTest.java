@@ -1,9 +1,13 @@
 package map;
 
 import fpinjava.Function; // hier Ihr Interface Function importieren!
+import fpinjava.Result;
 import list.List;
 import net.jqwik.api.*;
 import tuple.Tuple;
+
+import java.util.Objects;
+
 import static list.List.list;
 import static map.JqwikUtils.*;
 import static tuple.Tuple.tuple;
@@ -99,7 +103,7 @@ public abstract class ADTMapJqwikTest {
 	// isEmpty(empty)	= true
 	@Example
 	boolean isEmpty_empty(){
-		return false;
+		return empty().isEmpty();
 	}
 	
 	// ∀m:Map<K,V>, ∀k:K, ∀v:V
@@ -109,14 +113,14 @@ public abstract class ADTMapJqwikTest {
 	boolean isEmpty_insert(@ForAll("maps")  Map<K,V> m,
 												 @ForAll("keys")   K k,
 												 @ForAll("values") V v){
-		return false;
+		return !m.insert(k,v).isEmpty();
 	}
 	
 	// ∀k:K : member(k,empty) = false
 	@Property
 	<K extends Comparable<K>>
 	boolean member_empty(@ForAll("keys") K k){
-		return false;
+		return !ListMap.empty().member(k);
 	}
 	
 	// ∀m:Map<K,V>, ∀k1,k2:K, ∀v:V
@@ -127,7 +131,7 @@ public abstract class ADTMapJqwikTest {
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2,
 												@ForAll("values") V v){
-		return false;
+		return m.insert(k1, v).member(k2) == (k1.equals(k2) ? true : m.member(k2));
 	}
 	
 	// ∀m:Map<K,V>, ∀k1,k2:K
@@ -137,13 +141,13 @@ public abstract class ADTMapJqwikTest {
 	boolean member_delete(@ForAll("maps")  Map<K,V> m,
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2){
-		return false;
+		return m.delete(k1).member(k2) == (!k1.equals(k2) && m.member(k2));
 	}
 
 	// size(empty) =  0
 	@Example
 	boolean size_empty(){
-		return false;
+		return empty().size() == 0;
 	}
 	
 	// ∀m:Map<K,V>, ∀k:K, ∀v:V
@@ -153,7 +157,7 @@ public abstract class ADTMapJqwikTest {
 	boolean size_insert(@ForAll("maps")  Map<K,V> m,
 											@ForAll("keys") K k,
 											@ForAll("values") V v){
-		return false;
+		return m.insert(k,v).size() == (!m.member(k) ? m.size()+1 : m.size());
 	}
 
 	// ∀m:Map<K,V>, ∀k1,k2:K, ∀v1,∀v2:V
@@ -166,7 +170,8 @@ public abstract class ADTMapJqwikTest {
 												@ForAll("keys") K k2,
 												@ForAll("values") V v1,
 												@ForAll("values") V v2){
-		return false;
+		return m.insert(k1, v1).insert(k2,v2).equals((k1.equals(k2) ? m.insert(k2,v2)
+                : m.insert(k1,v1).insert(k2,v2)));
 	}
 
 	// ∀m:Map<K,V>, ∀k1,k2:K, ∀v:V
@@ -177,7 +182,7 @@ public abstract class ADTMapJqwikTest {
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2,
 												@ForAll("values") V v){
-		return false;
+		return m.insert(k1, v).delete(k2).equals((k1.equals(k2) ? m.delete(k2) : m.delete(k2).insert(k1,v)));
 	}
 
 	// ∀m:Map<K,V>, ∀k1,k2:K, ∀v:V
@@ -188,7 +193,8 @@ public abstract class ADTMapJqwikTest {
 										 @ForAll("keys") K k1,
 										 @ForAll("keys") K k2,
 										 @ForAll("values") V v){
-		return false; //null-sicher vergleichen!
+
+		return m.insert(k1,v).get(k2) == ((k1.equals(k2) ? v : m.get(k2)));
 	}
 
 
@@ -200,7 +206,8 @@ public abstract class ADTMapJqwikTest {
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2,
 												@ForAll("values") V v){
-		return false;
+		return m.insert(k1,v).lookup(k2).equals((k1.equals(k2) ? Result.success(v) : m.lookup(k2)));
+        //return m.insert(k1,v).lookup(k2).equals((k1.equals(k2) ? v : ))
 	}
 
 	// ∀m:Map<K,V>, ∀k1,k2:K
@@ -210,8 +217,25 @@ public abstract class ADTMapJqwikTest {
 	boolean get_delete(@ForAll("maps")  Map<K,V> m,
 										 @ForAll("keys") K k1,
 										 @ForAll("keys") K k2){
-		return false; //null-sicher vergleichen!
+       /* Assume.that(k2 != null);
+        Assume.that(k1 != null);
+        Assume.that(!m.isEmpty());
+        System.out.println(m.get(k2));
+        Assume.that(m.member(k2));
+
+        */
+		return  m.delete(k1).get(k2) == (k1.equals(k2) ? null : m.get(k2)); //null-sicher vergleichen!
 	}
+
+    /*
+      // null-Pointer-sicher vergleichen!
+    // Objects.equals
+  @Property @Report(Reporting.GENERATED)
+  <A> boolean finde(@ForAll("lists") List<A> l, @ForAll Function<A,Boolean> f){
+      return l.finde(f) == (l.any(f) ? l.filter(f).head() : null);
+  }
+     */
+
 
 	// ∀m:Map<K,V>, ∀k1,k2:K
 	// lookup(k2,delete(k1,m))	= k1=k2 ? Result.empty : lookup(k2,m)
@@ -220,13 +244,13 @@ public abstract class ADTMapJqwikTest {
 	boolean lookup_delete(@ForAll("maps")  Map<K,V> m,
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2){
-		return false;
+		return m.delete(k1).lookup(k2).equals((k1.equals(k2) ? Result.empty() : m.lookup(k2)));
 	}
 
 	// fromList([]) = empty
 	@Example
 	boolean testFromList(){
-		return false;
+		return fromList(List.list()).isEmpty();
 	}
 
 	// ∀k : K, ∀v : V, ∀xs
@@ -236,7 +260,9 @@ public abstract class ADTMapJqwikTest {
 	boolean testFromList(@ForAll("keys")   K k,
 											 @ForAll("values") V v,
 											 @ForAll("keyValueLists") List<Tuple<K,V>> xs) {
-		return false;
+		//return fromList(List.append().equals(fromList(xs).insert(k,v));
+
+        return fromList(xs.cons(new Tuple<>(k,v))).equals(fromList(xs).insert(k,v));
 	}
 
 
@@ -244,14 +270,15 @@ public abstract class ADTMapJqwikTest {
 	@Property
 	<K extends Comparable<K>,V>
 	boolean emptyMapIsSubmapOfAllMaps(@ForAll("maps") Map<K,V> m) {
-		return false;
+		//return empty().isSubmapOf(m);
+        return empty().isSubmapOf((ListMap)m);
 	}
 
 	// ∀m:Map<K,V> : m ⊆ m
 	@Property
 	<K extends Comparable<K>,V>
 	boolean everyMapIsSubmapOfItself(@ForAll("maps") Map<K,V> m) {
-		return false;
+		return m.isSubmapOf(m);
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀c:Map<K,V>
@@ -261,7 +288,7 @@ public abstract class ADTMapJqwikTest {
 	boolean assoziativGesetzUnion(@ForAll("maps") Map<K,V> a,
 																@ForAll("maps") Map<K,V> b,
 																@ForAll("maps") Map<K,V> c) {
-		return false;
+        return a.union(b.union(c)).equals(a.union(b).union(c));
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀c:Map<K,V>
@@ -271,7 +298,7 @@ public abstract class ADTMapJqwikTest {
 	boolean assoziativGesetzIntersect(@ForAll("maps") Map<K,V> a,
 																		@ForAll("maps") Map<K,V> b,
 																		@ForAll("maps") Map<K,V> c) {
-		return false;
+		return a.intersection(b.intersection(c)).equals(a.intersection(b).intersection(c));
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀c:Map<K,V>
@@ -281,7 +308,7 @@ public abstract class ADTMapJqwikTest {
 	boolean distributivGesetz(@ForAll("maps") Map<K,V> a,
 														@ForAll("maps") Map<K,V> b,
 														@ForAll("maps") Map<K,V> c) {
-		return false;
+		return a.intersection(b.union(c)).equals(a.intersection(b).union(a.intersection(c)));
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>
@@ -290,7 +317,7 @@ public abstract class ADTMapJqwikTest {
 	<K extends Comparable<K>,V>
 	boolean absorptionsGesetz(@ForAll("maps") Map<K,V> a,
 														@ForAll("maps") Map<K,V> b) {
-		return false;
+		return a.union(a.intersection(b)).equals(a);
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀k:K :
@@ -302,7 +329,11 @@ public abstract class ADTMapJqwikTest {
 	boolean defOfUnionGet(@ForAll("maps") Map<K,V> a,
 												@ForAll("maps") Map<K,V> b,
 												@ForAll("keys")   K k) {
-		return false; //null-sicher vergleichen!
+        System.out.println("union comare: " + a.union(b).get(k));
+        //System.out.println(a.get(k));
+		return (a.union(b)).get(k) == ((a.member(k) && b.member(k) || a.member(k) ? a.get(k)
+                : (b.member(k) ? b.lookup(k) : null)));
+        //null-sicher vergleichen!
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀k:K :
@@ -314,8 +345,13 @@ public abstract class ADTMapJqwikTest {
 	boolean defOfUnionLookup(@ForAll("maps") Map<K,V> a,
 										 @ForAll("maps") Map<K,V> b,
 										 @ForAll("keys")   K k) {
-		return false;
-	}
+
+		//return (a.union(b)).lookup(k) == (((a.member(k) && b.member(k) || a.member(k)
+        //       ? a.lookup(k) : b.member(k) ? b.lookup(k) : Result.empty())));
+
+        return (a.union(b)).lookup(k).equals((a.member(k)&&b.member(k)) || a.member(k)
+                ? a.lookup(k) : b.member(k) ? b.lookup(k) : Result.empty());
+    }
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀k:K
 	// get(k,(a ∩ b)) = member(k,a)&&member(k,b)?get(k,a):null
@@ -324,7 +360,7 @@ public abstract class ADTMapJqwikTest {
 	boolean defOfIntersectionGet(@ForAll("maps") Map<K,V> a,
 															 @ForAll("maps") Map<K,V> b,
 															 @ForAll("keys")   K k) {
-		return false;
+		return (a.intersection(b)).get(k) == (a.member(k) && b.member(k) ? a.get(k) : null);
 	}
 
 	// ∀a:Map<K,V>, ∀b:Map<K,V>, ∀k:K
@@ -334,7 +370,7 @@ public abstract class ADTMapJqwikTest {
 	boolean defOfIntersectionLookup(@ForAll("maps") Map<K,V> a,
 																	@ForAll("maps") Map<K,V> b,
 																	@ForAll("keys")   K k) {
-		return false;
+		return (a.intersection(b)).lookup(k).equals((a.member(k) && b.member(k) ? a.lookup(k) : Result.empty()));
 	}
 
 	@Example

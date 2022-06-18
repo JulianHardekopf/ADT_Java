@@ -35,22 +35,7 @@ public class TreeJqwikTest {
     void memberTest(@ForAll Integer x ,@ForAll Tree<Integer> tree , @ForAll boolean ergebnis) {
         Assertions.assertEquals(tree.member(x), ergebnis);
     }
-    /*
-    @Data
-    Iterable<Tuple.Tuple2<Tree<Integer>,  Tree<Integer>>> tree() {
-        return Table.of(
-                Tuple.of(Tree.tree(List.list(1,2,3)), tree()),
 
-
-    }
-
-    @Property
-    @FromData("tree")
-    void treeTest(@ForAll Integer x ,@ForAll Tree<Integer> tree , @ForAll boolean result) {
-        Assertions.assertEquals(tree.member(x), result);
-    }
-
-     */
 
     @Data
     Iterable<Tuple.Tuple2<Tree<Integer>, Integer>> size() {

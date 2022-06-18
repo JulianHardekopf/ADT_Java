@@ -274,6 +274,7 @@ public abstract class Tree <A extends Comparable<A>>  {
         }
 
         // Laufzeit: 0(n^2)
+        // append verschachteln
         @Override
         public List<A> inorder() {
             List<A> list = List.append(this.left().inorder(),List.list(this.value()));
