@@ -122,7 +122,7 @@ public class ListMap<K,V> implements Map<K,V> {
 
     @Override
     public Map<K, V> union(Map<K, V> m) {
-        return fromEntrySet(set.union(m.entrySet()));
+        return fromEntrySet(m.entrySet().union(this.set));
     }
 
     @Override
@@ -193,6 +193,13 @@ public class ListMap<K,V> implements Map<K,V> {
         System.out.println(map2.insert(3, "§").get(3));
 
         System.out.println(map2.insert(1, "k1").insert(1, "k2").get(1));
+
+        // defOfUnion
+        ListMap<String, Integer > map3 = new ListMap<>();
+        map3.insert("aaa", 20);
+        ListMap<String, Integer> map4 = new ListMap<>();
+        System.out.println("map3: " + map3.insert("aaa", 20).union(map4.insert("aaa", 21)).lookup("aaa"));
+        System.out.println(map3.insert("aaa", 20));
     }
 }
 

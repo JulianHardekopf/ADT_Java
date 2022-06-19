@@ -131,7 +131,7 @@ public abstract class ADTMapJqwikTest {
 												@ForAll("keys") K k1,
 												@ForAll("keys") K k2,
 												@ForAll("values") V v){
-		return m.insert(k1, v).member(k2) == (k1.equals(k2) ? true : m.member(k2));
+		return m.insert(k1, v).member(k2) == (k1.equals(k2) || m.member(k2));
 	}
 	
 	// ∀m:Map<K,V>, ∀k1,k2:K
@@ -329,10 +329,10 @@ public abstract class ADTMapJqwikTest {
 	boolean defOfUnionGet(@ForAll("maps") Map<K,V> a,
 												@ForAll("maps") Map<K,V> b,
 												@ForAll("keys")   K k) {
-        System.out.println("union comare: " + a.union(b).get(k));
+       // System.out.println("union comare: " + a.union(b).get(k));
         //System.out.println(a.get(k));
-		return (a.union(b)).get(k) == ((a.member(k) && b.member(k) || a.member(k) ? a.get(k)
-                : (b.member(k) ? b.lookup(k) : null)));
+		return (a.union(b)).get(k) == (a.member(k) ? a.get(k)
+                : (b.member(k) ? b.get(k) : null));
         //null-sicher vergleichen!
 	}
 
@@ -349,7 +349,7 @@ public abstract class ADTMapJqwikTest {
 		//return (a.union(b)).lookup(k) == (((a.member(k) && b.member(k) || a.member(k)
         //       ? a.lookup(k) : b.member(k) ? b.lookup(k) : Result.empty())));
 
-        return (a.union(b)).lookup(k).equals((a.member(k)&&b.member(k)) || a.member(k)
+        return (a.union(b)).lookup(k).equals(a.member(k)
                 ? a.lookup(k) : b.member(k) ? b.lookup(k) : Result.empty());
     }
 
