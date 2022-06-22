@@ -2,7 +2,7 @@ package map;
 
 import javax.swing.border.EtchedBorder;
 
-public class Entry<K,V> implements Comparable<Entry<K,V>> {
+public class Entry<K, V> implements Comparable<Entry<K,V>> {
 
     public final K key;
     public final V value;
@@ -24,7 +24,9 @@ public class Entry<K,V> implements Comparable<Entry<K,V>> {
 
     @Override
 	public int compareTo(Entry<K,V> other) {
-		return 0;
+        int thisHashCode = this.hashCode();
+        int otherHashCode = other.hashCode();
+        return thisHashCode < otherHashCode ? -1 : thisHashCode > otherHashCode ? 1 : 0;
 	}
     @Override
     public String toString() {
@@ -35,11 +37,11 @@ public class Entry<K,V> implements Comparable<Entry<K,V>> {
         return o instanceof Entry && this.key.equals(((Entry<?, ?>) o).key);
     }
 
-    public static <V, K> Entry<K,V> mapEntry(K key, V value) {
+    public static <K, V> Entry<K,V> mapEntry(K key, V value) {
         return new Entry<>(key, value);
 
     }
-    public static <V, K> Entry<K,V> mapEntry(K key)  {
+    public static <K, V> Entry<K,V> mapEntry(K key)  {
         return new Entry<>(key, null);
 
     }

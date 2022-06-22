@@ -9,6 +9,9 @@ import tuple.Tuple;
 import static tuple.Tuple.tuple;
 
 public interface Map<K,V> {
+
+    Set<Entry<K,V>> entrySet();
+    <K1,V1> Map<K1,V1> fromEntrySet(Set<Entry<K1,V1>> s);
     Map<K,V> insert(K key, V value);
     boolean member(K key);
     Map<K,V> delete(K key);
@@ -17,8 +20,7 @@ public interface Map<K,V> {
     int size();
     boolean isEqualTo(Map<K, V> snd);
     Map<K,V> insertWith(Function<V,Function<V,V>> f, K key, V value);
-    Set<Entry<K,V>> entrySet();
-    <K1,V1> Map<K1,V1> fromEntrySet(Set<Entry<K1,V1>> s);
+
     List<Tuple<K,V>> toList();
     List<K> keys();
     Set<K> keysSet();
@@ -34,6 +36,7 @@ public interface Map<K,V> {
     Map<K,V> union(Map<K,V> m);
     Map<K,V> intersection(Map<K,V> m);
     Result<V> lookup(K k);
+
 
 
 

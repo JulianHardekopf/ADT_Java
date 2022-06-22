@@ -3,10 +3,14 @@ package map;
 import fpinjava.Function;
 import fpinjava.Result;
 import list.List;
+import set.ListSet;
 import set.Set;
 import set.SortedSet;
 import set.TreeSet;
+import tree.bst.Tree;
 import tuple.Tuple;
+
+import static map.Entry.mapEntry;
 
 
 public class TreeMap<K,V> implements Map<K,V> {
@@ -14,20 +18,32 @@ public class TreeMap<K,V> implements Map<K,V> {
 
 	@SuppressWarnings("unchecked")
 	private TreeMap(){
-		this (TreeSet.empty());
+		this(TreeSet.empty());
 	}
 
 	private TreeMap(SortedSet<Entry<K,V>> s) {
 		set = s;
 	}
+    public static <K extends Comparable<K>,V> Map<K,V> empty() {
+        return new TreeMap<>();
+    }
 
-	public static <K,V> Map<K,V> empty() {
-		return new TreeMap<>();
-	}
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+        return this.set;
+    }
+    @Override
+    public <K1, V1> Map<K1, V1> fromEntrySet(Set<Entry<K1, V1>> s) {
+        return new TreeMap<>(TreeSet.fromSet(s));
+    }
+    public static <K1, V1> Map<K1, V1> fromEntrySet1(Set<Entry<K1, V1>> s) {
+        return new TreeMap<>(TreeSet.fromSet(s));
+    }
+    public static <K extends Comparable<K>,V> Map<K,V> fromList(List<Tuple<K,V>> l) {
+        return new TreeMap<>(TreeSet.fromSet(Set.map(x ->  mapEntry(x.fst, x.snd), l.toSet())));
+        //return new TreeMap<>();
+    }
 
-	public static <K,V> Map<K,V> fromList(List<Tuple<K,V>> list) {
-		return new TreeMap<>();
-	}
 
 	public static Map<String,Integer> wordMap(String s){
 		return new TreeMap<>();
@@ -38,7 +54,8 @@ public class TreeMap<K,V> implements Map<K,V> {
 	}
 
 	public Map<K,V> insert(K key, V value){
-		return new TreeMap<>();
+		return new TreeMap<>(TreeSet.fromSet(set.insert(mapEntry(key,value))));
+        //return new TreeMap<>(TreeSet.fromSet(set).insert(mapEntry(key, value)));
 	}
 
     @Override
@@ -60,15 +77,9 @@ public class TreeMap<K,V> implements Map<K,V> {
 		return new TreeMap<>();
 	}
 
-    @Override
-    public Set<Entry<K, V>> entrySet() {
-        return null;
-    }
 
-    @Override
-    public <K1, V1> Map<K1, V1> fromEntrySet(Set<Entry<K1, V1>> s) {
-        return null;
-    }
+
+
 
     @Override
     public List<Tuple<K, V>> toList() {
@@ -149,4 +160,19 @@ public class TreeMap<K,V> implements Map<K,V> {
         return 0;
     }
 
+    public String toString() {
+        return set.isEmpty() ? "{}" : set.toString();
+    }
+
+    public static void main(String[] args) {
+        TreeMap<Integer, String > map = new TreeMap<>();
+        List list = List.list(3,52,2,1,7);
+        List<Tuple<Integer, String>> list2 = List.list(Tuple.tuple(3, "test fromList"), Tuple.tuple(2, "test"), Tuple.tuple(1, "test"));
+        Map<Integer, String> lm = ListMap.fromList(list2);
+        System.out.println("Map fromList: " + ListMap.fromList(list2));
+        System.out.println("from entry set: " + fromList(list2));
+        System.out.println(map.insert(3, "hallo").insert(2, "test").insert(4, "hu").entrySet());
+        System.out.println(map.insert(3, "test"));
+
+    }
 }
