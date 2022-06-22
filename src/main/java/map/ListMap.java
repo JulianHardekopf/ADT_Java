@@ -183,6 +183,7 @@ public class ListMap<K,V> implements Map<K,V> {
         System.out.println("Insert: " + map.insert(1, "etwrf").get(1));
         System.out.println("size test 1: " + map.insert(2, "hallo").size());
         System.out.println("memberTest: " + map.insert(3, "test").member(3));
+        System.out.println("empty now: " + map.insert(2 ,"test").delete(2));
         List<Tuple<Integer, String>> list = List.list(Tuple.tuple(1, "test fromList"));
         System.out.println(fromList(list));
         System.out.println(map.get(2));

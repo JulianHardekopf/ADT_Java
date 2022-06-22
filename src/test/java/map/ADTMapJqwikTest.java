@@ -271,7 +271,7 @@ public abstract class ADTMapJqwikTest {
 	<K extends Comparable<K>,V>
 	boolean emptyMapIsSubmapOfAllMaps(@ForAll("maps") Map<K,V> m) {
 		//return empty().isSubmapOf(m);
-        return empty().isSubmapOf((ListMap)m);
+        return empty().isSubmapOf((Map)m);
 	}
 
 	// ∀m:Map<K,V> : m ⊆ m

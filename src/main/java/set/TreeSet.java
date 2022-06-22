@@ -193,6 +193,8 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         System.out.println(ts1.findMax());
         System.out.println(ts1.findMin());
         System.out.println(ts1);
+        List list2 = list(3,2,1,15,6);
+        System.out.println(fromList(list2));
     }
 
 

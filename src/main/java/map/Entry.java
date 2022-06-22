@@ -29,6 +29,10 @@ public class Entry<K, V> implements Comparable<Entry<K,V>> {
         return thisHashCode < otherHashCode ? -1 : thisHashCode > otherHashCode ? 1 : 0;
 	}
     @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
+    @Override
     public String toString() {
         return String.format("Entry(%s, %s)", key, value);
     }
