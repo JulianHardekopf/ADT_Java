@@ -9,15 +9,15 @@ import static list.List.list;
 
 
 public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
-	private final Tree<A> TREE;
+	private final Tree<A> tree;
 
 
     private TreeSet() {
-        TREE = Tree.tree();
+        tree = Tree.tree();
     }
 
 	private TreeSet(Tree<A> tree){
-        this.TREE = tree;
+        this.tree = tree;
 	}
 
 
@@ -48,111 +48,111 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
     }
     @Override
     public Set<A> insert(A e) {
-        return new TreeSet<>(TREE.insert(e));
+        return new TreeSet<>(tree.insert(e));
     }
 
     @Override
     public Set<A> delete(A e) {
-        return new TreeSet<>(TREE.delete(e));
+        return new TreeSet<>(tree.delete(e));
     }
 
     @Override
     public boolean member(A e) {
-        return TREE.member(e);
+        return tree.member(e);
     }
 
     @Override
     public int size() {
-        return TREE.size();
+        return tree.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return TREE.isEmpty();
+        return tree.isEmpty();
     }
 
     @Override
     public A findEq(A e) {
-        return TREE.findEq(e);
+        return tree.findEq(e);
     }
 
     @Override
     public List<A> toList() {
-        return TREE.inorder();
+        return tree.inorder();
     }
 
     @Override
     public Set<A> union(Set<A> s) {
-        return s.union(TREE.inorder().toSet());
+        return s.union(tree.inorder().toSet());
     }
 
     @Override
     public Set<A> intersection(Set<A> s) {
-        return s.intersection(TREE.inorder().toSet());
+        return s.intersection(tree.inorder().toSet());
     }
 
     @Override
     public boolean any(Function<A, Boolean> p) {
-        return TREE.inorder().toSet().any(p);
+        return tree.inorder().toSet().any(p);
     }
 
     @Override
     public boolean all(Function<A, Boolean> p) {
-        return TREE.inorder().toSet().all(p);
+        return tree.inorder().toSet().all(p);
     }
 
     @Override
     public boolean isSubsetOf(Set<A> s) {
-        return s.isSubsetOf(TREE.inorder().toSet());
+        return s.isSubsetOf(tree.inorder().toSet());
     }
 
     @Override
     public boolean disjoint(Set<A> s) {
-        return s.disjoint(TREE.inorder().toSet());
+        return s.disjoint(tree.inorder().toSet());
     }
 
     @Override
     public Result<A> lookupEq(A e) {
-        return TREE.inorder().toSet().lookupEq(e);
+        return tree.inorder().toSet().lookupEq(e);
     }
     @Override
     public Result<A> lookupMax() {
-        return TREE.lookupMax();
+        return tree.lookupMax();
     }
 
     @Override
     public Result<A> lookupMin() {
-        return TREE.lookupMin();
+        return tree.lookupMin();
     }
 
     @Override
     public A findMax() {
-        return TREE.findMax();
+        return tree.findMax();
     }
 
     @Override
     public A findMin() {
-        return TREE.findMin();
+        return tree.findMin();
     }
     @Override
     public String toString() {
-        return TREE.inorder().toString();
+        return tree.inorder().toString();
     }
 
-    public static <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {
+    public <A> Set<A> filter(Function<A, Boolean> f, Set<A> xs) {
         return ListSet.filter(f,xs);
     }
     // Laufzeit O(n)
-    public static <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
+    public <A, B> Set<B> map(Function<A, B> f, Set<A> xs) {
         return ListSet.map(f,xs);
     }
     // Laufzeit O(n)
-    public static <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
+    public <A, B> B foldr(Function<A, Function<B, B>> f, B s, Set<A> xs) {
         return ListSet.foldr(f,s,xs);
     }
 
     // Laufzeit O(n)
-    public static <A, B> B foldl(Function<B, Function<A, B>> f, B s, Set<A> xs) {
+    public <A, B> B foldl(Function<B, Function<A, B>> f, B s, Set<A> xs) {
         return ListSet.foldl(f,s,xs);
     }
 
@@ -182,7 +182,7 @@ public class TreeSet<A extends Comparable<A>> implements SortedSet<A> {
         System.out.println("Filter test coming: ");
         System.out.println(treeset.toList());
         System.out.println(set.toList());
-        System.out.println("Filter test with default: " + filter(fun, treeset));
+        //System.out.println("Filter test with default: " + filter(fun, treeset));
         System.out.println("fromSet test: " + fromSet(set).toList());
         String test = "Elfen helfen Elfeen test test AA";
         System.out.println(wordSet(test).toList());
